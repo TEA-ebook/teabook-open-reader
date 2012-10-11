@@ -1,0 +1,54 @@
+# Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+# 
+# This file is part of TeaBook Open Reader
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3.0 of the License.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+# An additional permission has been granted as a special exception 
+# to the GNU General Public Licence. 
+# You should have received a copy of this exception. If not, see 
+# <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+upstream tea {
+	server 127.0.0.1:3000;
+}
+
+client_max_body_size 10M;
+
+server {
+	server_name *.tea.lo;
+	access_log /var/log/nginx/TEA.access.log;
+	error_log /var/log/nginx/TEA.error.log;
+	# set the home
+	root /home/html5app/project/public;
+
+	location / {
+		if (-f $document_root/system/maintenance.html ) {
+			error_page 503 /system/maintenance.html;
+			return 503;
+		}
+		try_files $uri @app;
+	}
+
+	location @app {
+		proxy_pass_header Server;
+		proxy_set_header  Host            $http_host;
+		proxy_set_header  X-Real-IP       $remote_addr;
+		proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_redirect    off;
+
+		proxy_pass http://tea;
+	}
+}

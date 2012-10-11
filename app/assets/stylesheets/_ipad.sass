@@ -1,0 +1,118 @@
+// Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+// 
+// This file is part of TeaBook Open Reader
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.0 of the License.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// An additional permission has been granted as a special exception 
+// to the GNU General Public Licence. 
+// You should have received a copy of this exception. If not, see 
+// <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+// Ipad
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px)
+  body
+
+  // Ebboks list
+  .ebooks
+    padding: 25px
+
+    article
+      margin: 20px 0 40px 0
+      &:nth-of-type(4n+1)
+        &::before
+          background-size: 100% 31px
+
+
+
+
+
+
+// Portrait mode
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape)
+  body
+    section.content
+      padding-top: 55px
+
+    // Ebooks
+    .ebooks
+
+
+
+
+
+// Portrait mode
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait)
+
+  body
+    > header
+      nav
+        ul li a
+          font-size: 13px
+        p.powered
+          right: 68%
+          bottom: 12px
+      .rightZone .networkStatus
+        top: 25px
+        right: 50px
+        span
+          width: 12px
+          height: 12px
+          background-color: rgb(83, 192, 25)
+          +border-radius(6px)
+          &.offline
+            background-color: red
+          &::after
+            display: none
+    section.content
+      padding-top: 86px
+
+
+  // Home page
+  .tea_sessions_new, .tea_sessions_create
+    .container
+      width: 96%
+      margin-left: -48%
+
+  // Ebboks list
+  .ebooks
+    width: 654px
+    padding: 0 18px
+    article
+      &:nth-of-type(4n+1)
+        &::before
+          display: none
+      &:nth-of-type(3n+1)
+        &::before
+          display: block
+          position: absolute
+          content: ' '
+          left: -18px
+          bottom: -19px
+          width: 690px
+          height: 31px
+          background-size: 100% 31px
+          +background(image-url('shelf.png'))
+
+    &.detailled
+      padding: 0
+      article
+        width: 198px
+        &::before
+          display: none
+
+
+
+

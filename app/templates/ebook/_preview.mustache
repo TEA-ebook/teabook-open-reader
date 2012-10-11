@@ -1,0 +1,82 @@
+{{! Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/> }}
+{{!                                                                            }}
+{{! This file is part of TeaBook Open Reader                                   }}
+{{!                                                                            }}
+{{! This program is free software: you can redistribute it and/or modify       }}
+{{! it under the terms of the GNU General Public License as published by       }}
+{{! the Free Software Foundation, version 3.0 of the License.                  }}
+{{!                                                                            }}
+{{! This program is distributed in the hope that it will be useful,            }}
+{{! but WITHOUT ANY WARRANTY; without even the implied warranty of             }}
+{{! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              }}
+{{! GNU General Public License for more details.                               }}
+{{!                                                                            }}
+{{! You should have received a copy of the GNU General Public License          }}
+{{! along with this program.  If not, see <http://www.gnu.org/licenses/>.      }}
+{{!                                                                            }}
+{{! An additional permission has been granted as a special exception           }}
+{{! to the GNU General Public Licence.                                         }}
+{{! You should have received a copy of this exception. If not, see             }}
+{{! <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.        }}
+
+
+
+<p class="cover">
+  {{#converted?}}
+    <a href="/ebook/epub#{{_id}}" title="{{title}}">
+  {{/converted?}}
+    <img src="{{cover.detail.url}}" alt="{{title}}" title="{{title}}" />
+  {{#converted?}}
+    </a>
+  {{/converted?}}
+</p>
+
+<h1>
+  {{#converted?}}
+    <a href="/ebook/epub#{{_id}}" class="infos" title="{{title}}">
+  {{/converted?}}
+    {{title}}
+  {{#converted?}}
+    </a>
+  {{/converted?}}
+</h1>
+<h2>{{#authors}}{{#main}}{{author_name}}{{/main}}{{/authors}}</h2>
+<h3>{{#authors}}{{^main}}{{author_name}}&nbsp;{{/main}}{{/authors}}</h3>
+{{#publisher}}
+  {{#publisher_name}}
+    <p>Éditeur : <b>{{publisher_name}}</b></p>
+  {{/publisher_name}}
+  {{#collection}}
+    <p>Collection : <b>{{collection}}</b></p>
+  {{/collection}}
+  {{#publication_date}}
+    <p>Date de publication : <b>{{publication_date}}</b></p>
+  {{/publication_date}}
+{{/publisher}}
+{{#reading}}
+  {{#updated_at}}
+    <p>Dernière lecture : {{reading.updated_at}}</p>
+  {{/updated_at}}
+{{/reading}}
+{{#purchase_date}}
+  <p>Date d'acquisition : {{purchase.date}}</p>
+{{/purchase_date}}
+{{#number_of_bookmarks}}
+  <p>Nombre de bookmarks : {{number_of_bookmarks}}</p>
+{{/number_of_bookmarks}}
+{{#descriptions}}
+  <p class="textContent">{{content}}</p>
+{{/descriptions}}
+
+<span class="loader"><img src="/assets/ajax-loader.gif" alt="Loading…"/></span>
+<div class="downloadProgress">
+  <span class="bar"></span>
+</div>
+
+<ul class="actions">
+  {{#converted?}}
+    <li><a href="#" class="download only-online">Download</a><p>Télécharger cet ebook</p></li>
+    <li><a href="#" class="remove">Remove</a><p>Supprimer cet ebook</p></li>
+    <li><a href="/ebook/epub#{{_id}}" class="read only-online">Read</a><p>Lire cet ebook</p></li>
+  {{/converted?}}
+</ul>

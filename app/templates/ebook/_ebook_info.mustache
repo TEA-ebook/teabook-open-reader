@@ -1,0 +1,68 @@
+{{! Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/> }}
+{{!                                                                            }}
+{{! This file is part of TeaBook Open Reader                                   }}
+{{!                                                                            }}
+{{! This program is free software: you can redistribute it and/or modify       }}
+{{! it under the terms of the GNU General Public License as published by       }}
+{{! the Free Software Foundation, version 3.0 of the License.                  }}
+{{!                                                                            }}
+{{! This program is distributed in the hope that it will be useful,            }}
+{{! but WITHOUT ANY WARRANTY; without even the implied warranty of             }}
+{{! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              }}
+{{! GNU General Public License for more details.                               }}
+{{!                                                                            }}
+{{! You should have received a copy of the GNU General Public License          }}
+{{! along with this program.  If not, see <http://www.gnu.org/licenses/>.      }}
+{{!                                                                            }}
+{{! An additional permission has been granted as a special exception           }}
+{{! to the GNU General Public Licence.                                         }}
+{{! You should have received a copy of this exception. If not, see             }}
+{{! <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.        }}
+
+
+
+<h2><a class="toggle_details">Informations</a></h2>
+
+<div class="details">
+  <h3>{{title}}</h3>
+
+  <ul>
+    <li>Auteur :
+      {{#authors}}
+        {{#main}}
+          <b>{{author_name}}</b>&nbsp;
+        {{/main}}
+      {{/authors}}
+      {{#authors}}
+        {{^main}}
+          {{author_name}}&nbsp;
+        {{/main}}
+      {{/authors}}
+    </li>
+    {{#publisher}}
+      {{#publisher_name}}
+        <li>Éditeur : <b>{{publisher_name}}</b></li>
+      {{/publisher_name}}
+      {{#collection}}
+        <li>Collection : <b>{{collection}}</b></li>
+      {{/collection}}
+      {{#publication_date}}
+        <li>Date de publication : <b>{{publication_date}}</b></li>
+      {{/publication_date}}
+    {{/publisher}}
+    {{#reading}}
+      {{#updated_at}}
+        <li>Dernière lecture : {{reading.updated_at}}</li>
+      {{/updated_at}}
+    {{/reading}}
+    {{#purchase_date}}
+      <li>Date d'acquisition : {{purchase.date}}</li>
+    {{/purchase_date}}
+    {{#number_of_bookmarks}}
+      <li>Nombre de bookmarks : {{number_of_bookmarks}}</li>
+    {{/number_of_bookmarks}}
+  </ul>
+  {{#descriptions}}
+    <p>{{content}}</p>
+  {{/descriptions}}
+</div>

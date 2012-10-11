@@ -1,0 +1,54 @@
+-# Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+-# 
+-# This file is part of TeaBook Open Reader
+-# 
+-# This program is free software: you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation, version 3.0 of the License.
+-# 
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 
+-# You should have received a copy of the GNU General Public License
+-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-# 
+-# An additional permission has been granted as a special exception 
+-# to the GNU General Public Licence. 
+-# You should have received a copy of this exception. If not, see 
+-# <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+- if user_signed_in?
+  %nav
+    %ul
+      - if controller_name == 'epubs' && action_name == 'index'
+        %li.offlineStorage= link_to 'Stockage', "#offlineStorage", 'data-toggle' => 'modal'
+      %li.account= link_to 'Mon compte', "#account", 'data-toggle' => 'modal'
+      %li.help= link_to 'Aide', "#helpLibrary", 'data-toggle' => 'modal'
+
+  .modal.account.hide#account(style="display: none;")
+    %header
+      <h1>Mon compte</h1>
+      <button class="close" data-dismiss="modal">×</button>
+    %section
+      %ul
+        - if @current_bookseller.present?
+          - if !bookstore_session
+            %li= link_to "Connectez-vous", new_tea_session_path
+          - else
+            %li
+              Connecté en tant que #{current_user.account(@current_bookseller.bookstore_id)['email']}
+              = link_to "Déconnectez-vous", tea_session_path(id: @current_bookseller.bookstore_id), method: :delete
+        - else
+          - session[:tea_sessions].each do |key, value|
+            %li
+              Connecté en tant que #{current_user.account(key)['email']}
+              = link_to "Déconnectez-vous de #{key}", tea_session_path(id: key), method: :delete, class: :btn
+
+- else
+  %nav
+    %ul
+      %li.help= link_to 'Aide', "#helpGeneric", 'data-toggle' => 'modal'

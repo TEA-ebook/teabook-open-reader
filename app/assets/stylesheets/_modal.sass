@@ -1,0 +1,392 @@
+// Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+// 
+// This file is part of TeaBook Open Reader
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.0 of the License.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// An additional permission has been granted as a special exception 
+// to the GNU General Public Licence. 
+// You should have received a copy of this exception. If not, see 
+// <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+//modal box structuring styles
+=modal($where: 'library')
+  @if $where == 'library'
+    position: fixed
+    top: 50%
+    bottom: 10%
+    left: 50%
+    z-index: 901
+    width: 560px
+    margin: -250px 0 0 -280px
+
+    > section
+      padding: 15px 15px 35px 15px
+      .cover
+        margin: 0
+      ul.actions
+        li
+          position: relative
+          &:hover
+            p
+              position: absolute
+              top: -12px
+              left: 95%
+              display: block
+              padding: 10px
+              white-space: nowrap
+              color: white
+              background-color: rgba(20, 20, 20, 0.8)
+              z-index: 100
+              +border-radius(4px)
+              &::after
+                position: absolute
+                top: 13px
+                right: 100%
+                display: block
+                content: ""
+                border:
+                  top: 5px solid transparent
+                  right: 5px solid rgba(20, 20, 20, 0.8)
+                  bottom: 5px solid transparent
+          p
+            display: none
+
+    //Help library modal
+    &#helpLibrary
+      > section
+        p
+          line-height: 20px
+        dl
+          position: absolute
+          bottom: 30px
+          color: $font_color_3
+          dt
+            font: bold 11px/13px "Helvetica"
+          dd
+            font: italic 11px/13px "Helvetica"
+    //Account modal
+    &.account
+      > section
+        text-align: center
+        ul
+          li
+            font: normal 14px/16px "Museo 500"
+        .btn
+          margin-top: 10px
+
+    //Storage modal
+    &#offlineStorage
+      > section
+        padding: 15px 30px 70px 30px
+        ul
+          +pie-clearfix
+          li
+            clear: left
+            display: block
+            padding: 15px
+            +box-sizing(border-box)
+            .cover
+              float: left
+              margin-right: 15px
+            a.remove
+              position: relative
+              display: inline-block
+              width: 20px
+              height: 20px
+              text-indent: -9999px
+              &::after
+                position: absolute
+                top: 0
+                right: 0
+                bottom: 0
+                left: 0
+                content: "\f057"
+                text-indent: 0
+                color: #333
+                font: normal 20px/20px "Font icon"
+        article
+          position: absolute
+          top: 40px
+          right: 30px
+          bottom: 60px
+          left: 30px
+          padding: 0 0 15px 0
+          overflow: auto
+
+      footer
+        position: absolute
+        right: 0
+        bottom: 0
+        left: 0
+        height: 54px
+        padding: 5px 0 0 0
+        margin: 0 30px
+        border-top: 1px solid #b3b3b3
+        background-color: white
+        h3
+          color: #333
+          font: normal 12px/18px "Museo 300"
+        .quota
+          position: relative
+          width: 73%
+          +border-radius(4px)
+          &::after
+            position: absolute
+            top: 0
+            right: 0
+            bottom: 0
+            left: 0
+            content: ""
+            +box-shadow(#777 1px 1px 2px  inset)
+            +border-radius(4px)
+          .bar
+            white-space: nowrap
+            color: white
+            font: normal 12px/18px "Museo 300"
+            text-indent: 50%
+            background-color: #c7d063
+            +border-radius(4px)
+        a.btn
+          float: right
+          margin-top: 5px
+
+  @if $where == 'reader'
+    position: absolute
+    top: 30px
+    right: 15px
+    bottom: 30px
+    left: 15px
+    text-align: left
+    z-index: 200
+
+    &.detailsPanel
+      overflow: normal
+      .tabs-content
+        position: absolute
+        top: 25px
+        right: 25px
+        bottom: 25px
+        left: 0
+        overflow: auto
+
+    > section
+      #preview
+        padding: 50px 15px 15px 225px
+        .cover
+          position: absolute
+          left: 15px
+          margin: 0
+      ul.actions
+        display: none
+
+  +pie-clearfix
+
+  &.fade
+    +transition(opacity .3s linear, top .3s ease-out)
+    top: -25%
+
+  &.fade.in
+    top: 50%
+
+  & + .modal-backdrop
+    position: fixed
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    opacity: 80
+    background-color: rgba(0, 0, 0, 0.7)
+    z-index: 100
+    &.fade
+      opacity: 0
+    &.fade.in
+      opacity: 80
+
+  &.settingsPanel
+    top: 0
+    right: 0
+    bottom: 0
+    left: 50%
+    +box-shadow(rgba(0, 0, 0, 0.31) -1px 0 6px -2px)
+    header
+      border: 1px solid transparent
+        bottom: 1px solid #dbdbdc
+      +border-radius(0)
+      h1
+        padding-left: 35px
+      button
+        +close3d(left, 1.3)
+        bottom: 17px
+    & + .modal-backdrop
+      display: none
+    > section
+      padding: 15px
+      +border-radius(0)
+      article
+        margin-bottom: 25px
+        &.sizeSlider
+          padding-bottom: 18px
+        h1
+          font-size: 15px
+
+  /* buttons in modal */
+  a.btn,
+  ul.actions li a
+    +btn
+
+  /* modal's header */
+  > header
+    position: relative
+    min-height: 55px
+    border: 1px solid transparent
+      bottom: 1px solid #dbdbdc
+    +border-radius(30px 30px 0 0)
+    +background(linear-gradient(#f6f6f4, #edece8))
+
+    h1
+      height: 30px
+      padding-left: 25px
+      margin-top: 12px
+      color: $font_color_3
+      font: normal 20px/30px "Museo 700"
+
+    /* Modal's navigation */
+    nav
+      padding-top: 10px
+      +pie-clearfix
+      ul
+        padding: 0
+        margin: 0
+        list-style-type: none
+        li
+          position: relative
+          float: left
+          margin-bottom: -1px
+          &.active
+            a
+              background-color: white
+              +border-radius(10px 10px 0 0)
+          &::after
+            position: absolute
+            top: 12px
+            right: 0
+            bottom: 12px
+            left: 0
+            content: ""
+            border:
+              right: 1px solid white
+              left: 1px solid #dbdbdc
+          &:first-child::after
+            border-left: 0
+          &:last-child::after
+            border-right: 0
+          a
+            position: relative
+            display: block
+            height: 45px
+            padding: 0 10px 0 14px
+            margin: 0 15px
+            text:
+              decoration: none
+              indent: 15px
+            color: black
+            font: normal 13px/45px "Museo 500"
+            z-index: 2
+            &:hover
+              background-color: white
+              +border-radius(10px 10px 0 0)
+            &::before
+              position: absolute
+              left: -8px
+              top: 15px
+              color: grey
+              font: normal 20px/20px "Font icon"
+            &.summary::before
+              content: "\f022"
+            &.view::before
+              content: "\f06e"
+
+    /* Modal's close button */
+    button
+      +close3d
+
+  //Modal's content
+  > section
+    position: absolute
+    top: 56px
+    right: 0
+    bottom: 0
+    left: 0
+    overflow: auto
+    background-color: white
+    +border-radius(0 0 30px 30px)
+
+    h1, h1 a
+      margin: 0
+      color: $font_color_3
+      text-decoration: none
+      font: bold 20px/22px "Helvetica"
+    h1  a:hover
+      text-decoration: underline
+    h2
+      margin: 0
+      color: lighten($font_color_3, 10)
+      font: normal 18px/20px "Helvetica"
+    h3
+      margin: 0
+      color: lighten($font_color_3, 10)
+      font: normal 14px/16px "Helvetica"
+
+    p
+      margin: 10px 0
+      color: lighten($font_color_3, 35)
+      font: normal 14px/16px "Helvetica Neue"
+      &.textContent
+        color: lighten($font_color_3, 10)
+
+    //Drag scrubber
+    .dragdealer
+      position: relative
+      height: 2px
+      width: 200px
+      margin-top: 16px
+      background: #EEE
+
+      .handle
+        +scrubber(-16px)
+        &::before
+          display: none
+
+      .disabled
+        background: #898989
+
+    //Table of content's styles
+    #toc
+      padding: 15px
+      ol
+        list-style-type: none
+        margin: 0
+        padding: 0
+        li
+          margin-bottom: 10px
+          a
+            color: $font_color_2
+            text-decoration: none
+            font: bold 16px/18px "Helvetica"
+
+  //Hide spinners
+  .loader, .downloadProgress
+    display: none

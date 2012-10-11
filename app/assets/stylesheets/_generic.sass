@@ -1,0 +1,119 @@
+// Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+// 
+// This file is part of TeaBook Open Reader
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.0 of the License.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// An additional permission has been granted as a special exception 
+// to the GNU General Public Licence. 
+// You should have received a copy of this exception. If not, see 
+// <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+//Close button with 3d effect
+=close3d($position: 'right', $ratio: 1)
+  position: absolute
+  bottom: 7px
+  margin: 0
+  cursor: pointer
+  color: white
+  font-size: 20px * $ratio
+  line-height: 15px * $ratio
+  border: 0
+  background-color: #c8c3b2
+  +box-shadow(rgba(18, 18, 18, 0.4) 1px 1px 2px 0)
+
+  @if $position == 'left'
+    right: auto
+    left: -5px
+    padding: 0 1px 3px 5px
+    +border-radius(2px 2px 2px 0)
+    &::before, &::after
+      left: 0
+    &::before
+      +border-radius(0 0 0 2px)
+    &::after
+      +border-radius(2px 0 0 2px)
+
+  @else
+    right: -5px
+    left: auto
+    padding: 0 0 3px 1px
+    +border-radius(2px 2px 0 2px)
+    &::before, &::after
+      right: 0
+    &::before
+      +border-radius(0 0 2px 0)
+    &::after
+      +border-radius(0 2px 2px 0)
+
+  &::before, &::after
+    position: absolute
+    top: 100%
+    content: ""
+    display: block
+    width: 4px
+    height: 4px
+  &::before
+    background-color: #c8c3b2
+  &::after
+    background-color: rgba(18, 18, 18, 0.5)
+
+//Scrubber
+=scrubber($topValue: 0)
+  position: absolute
+  top: $topValue
+  width: 34px
+  height: 34px
+  cursor: pointer
+  background-color: white
+  border: 0
+  +box-shadow(#b3c6d4 0 0 3px 1px)
+  +border-radius(17px)
+  &::before
+    position: absolute
+    top: 29px
+    left: 13px
+    content: ""
+    display: block
+    width: 8px
+    height: 8px
+    background-color: white
+    +transform(rotate(45deg))
+    +box-shadow(#b3c6d4 1px 1px 1px 0)
+  &::after
+    position: absolute
+    top: 50%
+    left: 50%
+    content: ""
+    width: 14px
+    height: 14px
+    margin:
+      top: -12px
+      left: -12px
+    background-color: #c0cdd6
+    border: 5px solid white
+    +box-shadow(#b3c6d4 0 0 0 2px)
+    +border-radius(20px)
+
+//Button styles
+=btn
+  display: inline-block
+  height: 30px
+  padding: 0 10px
+  text-decoration: none
+  color: lighten($font_color_3, 15)
+  font: normal 14px/30px "Museo 500"
+  border: 2px solid lighten($border_color_1, 30)
+  +border-radius(17px)

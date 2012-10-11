@@ -1,0 +1,38 @@
+-# Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+-# 
+-# This file is part of TeaBook Open Reader
+-# 
+-# This program is free software: you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation, version 3.0 of the License.
+-# 
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 
+-# You should have received a copy of the GNU General Public License
+-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-# 
+-# An additional permission has been granted as a special exception 
+-# to the GNU General Public Licence. 
+-# You should have received a copy of this exception. If not, see 
+-# <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no")
+    %title TeaBook Open Reader
+    = stylesheet_link_tag "reader", :media => "all"
+    = csrf_meta_tags
+    /[if IE]
+      = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"
+
+  %body(data-userid="#{current_user.id}")
+    #reader
+    = javascript_include_tag :reader

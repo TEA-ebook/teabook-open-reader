@@ -1,0 +1,21 @@
+# vim: se ft=screen :
+
+vbell off        # turns off the flashing visual bell
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+shell -${SHELL}
+
+screen -t SERVER          0
+stuff "[[ -f .rvmrc ]] && source .rvmrc ; bundle exec thin start\015"
+
+screen -t CONSOLE         1
+stuff "[[ -f .rvmrc ]] && source .rvmrc ; bundle exec rails console\015"
+
+screen -t RESQUE          2
+stuff "[[ -f .rvmrc ]] && source .rvmrc ; bundle exec rake resque:pool:start ; tail -f log/resque-pool.*.log\015"
+
+screen -t SHELL           3
+stuff "[[ -f .rvmrc ]] && source .rvmrc ; \015"
+
+screen -t GUARD           4
+stuff "[[ -f .rvmrc ]] && source .rvmrc ; [ -f Guardfile ] && sleep 1 && bundle exec guard\015"

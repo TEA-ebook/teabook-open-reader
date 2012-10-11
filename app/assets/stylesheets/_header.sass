@@ -1,0 +1,155 @@
+// Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+// 
+// This file is part of TeaBook Open Reader
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.0 of the License.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// An additional permission has been granted as a special exception 
+// to the GNU General Public Licence. 
+// You should have received a copy of this exception. If not, see 
+// <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+body
+  > header
+    position: fixed
+    height: 70px
+    width: 100%
+    overflow-x: hidden
+    z-index: 2
+
+    // Navigation
+    nav
+      position: absolute
+      top: 0
+      left: 0
+      width: 50%
+      height: 60px
+      margin: 0 0 0 -40px
+      +background(linear-gradient(top, $header_blue_top, $header_blue_bottom))
+      border-bottom: 5px solid $header_border_bottom
+      +border-radius(0 0 20px 0)
+
+      ul
+        float: right
+        li
+          display: inline-block
+          margin: 0 50px 0 0
+          opacity: 0.4
+          +transition(opacity 0.2s linear)
+          &:hover
+            opacity: 1
+          a
+            position: relative
+            display: block
+            padding: 35px 0 0 0
+            font: normal 15px 'Museo 700'
+            color: $font_color_1
+            text-decoration: none
+            &::after
+              position: absolute
+              top: 10px
+              display: block
+              width: 100%
+              text-align: center
+              font: normal 26px/26px "Font icon"
+
+          &.library a::after
+            top: 5px
+            font-family: "Moon icon"
+            content: "1"
+          &.catalog a::after
+            top: 5px
+            font-family: "Moon icon"
+            content: "="
+          &.offlineStorage a::after
+            content: "\f0a0"
+          &.help a::after
+            content: "?"
+          &.account a::after
+            content: "\f007"
+
+    // Right Zone
+    .rightZone
+      position: absolute
+      top: 0
+      right: 0
+      width: 50%
+      height: 60px
+      margin: 0 -40px 0 0
+      +background(linear-gradient(top, $header_blue_top, $header_blue_bottom))
+      border-bottom: 5px solid $header_border_bottom
+      +border-radius(0 0 0 20px)
+
+      nav
+        left: 40px
+        right: auto
+        min-width: 430px
+        +border-radius(0 0 0 20px)
+        ul
+          float: left
+          margin: 0 0 0 40px
+
+      .networkStatus
+        position: absolute
+        top: 25px
+        right: 62px
+        span
+          position: relative
+          display: block
+          width: 15px
+          height: 20px
+          text-indent: -9999px
+          &::after
+            position: absolute
+            top: 0
+            right: 0
+            bottom: 0
+            left: 0
+            display: block
+            content: '\f007'
+            font: normal 20px/20px 'Font icon'
+            +text-shadow(0 -1px 0 rgb(115, 174, 18))
+            text-indent: 0
+            color: rgb(83, 192, 25)
+          &.offline::after
+            +text-shadow(0 -1px 0 rgba(0, 0, 0, 0.25))
+            color: red
+
+
+    // Logo
+    p.logo
+      position: absolute
+      z-index: 2
+      top: 0
+      left: 50%
+      margin: -8px 0 0 -40px
+      background-color: #fff
+      +border-radius(0 0 5px 0)
+      +box-shadow(rgba(18, 18, 18, 0.7) 0 1px 5px 1px)
+      a.powered
+        display: block
+        width: 80px
+        height: 58px
+        padding-top: 15px
+        cursor: pointer
+        text-align: center
+        color: $font_color_1
+        font: normal 30px/25px "Times new roman"
+        opacity: 0.8
+        text-decoration: none
+        span
+          display: block
+          font: normal 8px/8px "Museo 300"
+

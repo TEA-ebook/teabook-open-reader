@@ -1,0 +1,110 @@
+// Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+// 
+// This file is part of TeaBook Open Reader
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.0 of the License.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// An additional permission has been granted as a special exception 
+// to the GNU General Public Licence. 
+// You should have received a copy of this exception. If not, see 
+// <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+.tea_sessions_new, .tea_sessions_create
+  .container
+    position: absolute
+    top: 65px
+    bottom: 0
+    left: 50%
+    width: 70%
+    margin-left: -35%
+    section.connect
+      position: absolute
+      top: 17%
+      right: 0
+      display: block
+      padding: 15px
+      width: 30%
+      min-width: 200px
+      background-color: white
+      border: 1px solid #e5e5e5
+      +border-radius(4px)
+      +box-shadow(#B8C0CA 0px 0px 3px 0px)
+
+      section
+        position: relative
+        padding-bottom: 50px
+
+        header
+          margin: 0 0 20px 0
+          h1
+            font: normal 18px/20px 'Museo 500'
+
+        label
+          font: normal 14px/20px 'Museo 300'
+          color: $font_color_2
+          +text-shadow(0 -1px 0 rgba(0, 0, 0, 0.25))
+
+        input
+          width: 100%
+          height: 26px
+          +box-sizing(border-box)
+          margin-bottom: 9px
+          font-size: 13px
+          padding: 4px
+          color: #555
+          cursor: pointer
+          background: #fff
+          border: 1px solid #CCC
+          +border-radius(3px)
+          +box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.075))
+          +transition(border 0.2s linear, box-shadow 0.2s linear)
+          &:focus
+            border-color: rgba(82, 168, 236, 0.8)
+            outline: 0
+            +box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6))
+
+        .error
+          label
+            color: #953B39
+          input
+            border-color: #953B39
+            +box-shadow(0 0 6px #D59392)
+
+        p
+          font: normal 13px/15px "Museo 300"
+          text-align: center
+
+
+        footer
+          position: absolute
+          bottom: 10px
+          left: 0
+          width: 100%
+          text-align: center
+          input, a
+            display: inline-block
+            width: auto
+            height: 30px
+            margin: 0
+            padding: 0 10px
+            font: normal 14px/30px 'Museo 500'
+            color: $button_1_color
+            +text-shadow(0 -1px 0 rgba(0, 0, 0, 0.25))
+            text-decoration: none
+            +border-radius(6px)
+            border: 1px solid $button_1_border
+            background-color: $button_1_bg
+            +background(linear-gradient(top, $button_1_start, $button_1_end))
+            +box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05))

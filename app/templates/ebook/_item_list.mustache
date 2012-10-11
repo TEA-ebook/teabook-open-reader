@@ -1,0 +1,58 @@
+{{! Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/> }}
+{{!                                                                            }}
+{{! This file is part of TeaBook Open Reader                                   }}
+{{!                                                                            }}
+{{! This program is free software: you can redistribute it and/or modify       }}
+{{! it under the terms of the GNU General Public License as published by       }}
+{{! the Free Software Foundation, version 3.0 of the License.                  }}
+{{!                                                                            }}
+{{! This program is distributed in the hope that it will be useful,            }}
+{{! but WITHOUT ANY WARRANTY; without even the implied warranty of             }}
+{{! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              }}
+{{! GNU General Public License for more details.                               }}
+{{!                                                                            }}
+{{! You should have received a copy of the GNU General Public License          }}
+{{! along with this program.  If not, see <http://www.gnu.org/licenses/>.      }}
+{{!                                                                            }}
+{{! An additional permission has been granted as a special exception           }}
+{{! to the GNU General Public Licence.                                         }}
+{{! You should have received a copy of this exception. If not, see             }}
+{{! <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.        }}
+
+
+
+<p class="cover test">
+  {{#converted?}}
+    <a href="/ebook/epub#{{_id}}" class="infos" title="{{title}}">
+  {{/converted?}}
+    <img src="{{cover.library.url}}" alt="{{title}}" title="{{title}}" />
+  {{#converted?}}
+    </a>
+  {{/converted?}}
+</p>
+
+<h2>
+  {{#converted?}}
+    <a href="/ebook/epub#{{_id}}" class="infos" title="{{title}}">
+  {{/converted?}}
+    {{title}}
+  {{#converted?}}
+    </a>
+  {{/converted?}}
+</h2>
+<h3>{{#authors}}{{#main}}{{first_name}} {{last_name}}{{/main}}{{/authors}}</h3>
+<p>{{#authors}}{{^main}}{{first_name}} {{last_name}}&nbsp;{{/main}}{{/authors}}<p>
+<p><span>Editeur:</span> {{publisher.publisher_name}}</p>
+
+{{#reading_position.percentage}}
+<ul class="readingStatus">
+  <li>dernière lecture <span>{{reading_position.updated_at}}</span></li>
+  <li>lu à <span>{{reading_position.percentage}} %</span></li>
+</ul>
+{{/reading_position.percentage}}
+
+<ul class="actions">
+  <li class="details"><a href="#details{{_id}}" data-toggle="modal" class="infos">info</a><p>Plus d'informations</p></li>
+  <li class="download-impossible"><p>Cet ebook a déjà été téléchargé</p></li>
+  <li class="download-possible"><p>Cet ebook est téléchargeable</p></li>
+</ul>

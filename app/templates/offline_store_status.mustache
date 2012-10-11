@@ -1,0 +1,52 @@
+{{! Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/> }}
+{{!                                                                            }}
+{{! This file is part of TeaBook Open Reader                                   }}
+{{!                                                                            }}
+{{! This program is free software: you can redistribute it and/or modify       }}
+{{! it under the terms of the GNU General Public License as published by       }}
+{{! the Free Software Foundation, version 3.0 of the License.                  }}
+{{!                                                                            }}
+{{! This program is distributed in the hope that it will be useful,            }}
+{{! but WITHOUT ANY WARRANTY; without even the implied warranty of             }}
+{{! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              }}
+{{! GNU General Public License for more details.                               }}
+{{!                                                                            }}
+{{! You should have received a copy of the GNU General Public License          }}
+{{! along with this program.  If not, see <http://www.gnu.org/licenses/>.      }}
+{{!                                                                            }}
+{{! An additional permission has been granted as a special exception           }}
+{{! to the GNU General Public Licence.                                         }}
+{{! You should have received a copy of this exception. If not, see             }}
+{{! <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.        }}
+
+
+
+<header>
+  <button class="close" data-dismiss="modal">×</button>
+</header>
+<section>
+  <header>
+    <h1>Livres accessibles hors connexion</h1>
+  </header>
+  <article>
+    <span class="loader" style="display: none;"><img src="/assets/ajax-loader.gif" alt="Loading…"/></span>
+    <ul>
+      {{#ebooks}}
+        <li class="offlineEbook">
+          <a href="/ebook/epub#{{_id}}" class="cover"><img src="{{cover.library.url}}"/></a>
+          <h2>{{title}}</h2>
+          <p>{{#authors}}{{#main}}{{author_name}}{{/main}}{{/authors}}</p>
+          <a href="#" class="remove" data-ebook_id="{{_id}}">Supprimer</a>
+        </li>
+      {{/ebooks}}
+    </ul>
+  </article
+</section>
+
+<footer>
+  <a href="#" class="btn removeAll">Tout supprimer</a>
+  <h3>Espace de stockage hors connexion</h3>
+  <div class="quota">
+    <span class="bar" style="width: {{percentage}}% !important;"></span>
+  </div>
+</footer>

@@ -1,0 +1,58 @@
+-# Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+-# 
+-# This file is part of TeaBook Open Reader
+-# 
+-# This program is free software: you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation, version 3.0 of the License.
+-# 
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 
+-# You should have received a copy of the GNU General Public License
+-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-# 
+-# An additional permission has been granted as a special exception 
+-# to the GNU General Public Licence. 
+-# You should have received a copy of this exception. If not, see 
+-# <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no")
+    %meta(http-equiv="X-UA-Compatible" content="chrome=1")
+
+    %meta(name="apple-mobile-web-app-capable" content="yes")
+    %meta(name="apple-touch-fullscreen" content="yes")
+    %meta(name="apple-mobile-web-app-status-bar-style" content="transparent")
+    %link(rel="apple-touch-icon" href="/assets/icon.png")
+
+    %title= content_for?(:title) ? yield(:title) : "TeaBook Open Reader"
+    = bookseller_stylesheet
+    = csrf_meta_tags
+    /[if IE]
+      = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"
+    /[if lt IE 9]
+      = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
+
+  %body(class="#{controller_name}_#{action_name}" data-userid="#{current_user.id if user_signed_in?}" data-online="#{online?}" data-bookstore="#{current_bookseller.try(:bookstore_id)}")
+
+    %header
+      = render partial: 'layouts/header'
+
+    %section.container
+      - flash.each do |name, msg|
+        %article{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+          %a.close{"data-dismiss" => "alert"} ×
+          %p= msg
+
+      = yield
+      #help
+
+    = javascript_include_tag "application"

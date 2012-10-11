@@ -1,0 +1,135 @@
+TeaBook open reader est notre vision long terme de la lecture de livres 
+électroniques sur PC et tablettes. Plutôt que de créer une application 
+native pour chaque appareil et chaque version du système d'exploitation,
+nous visons à élaborer une unique application de lecture utilisable dans 
+un navigateur récent, sans aucun prérequis à installer.
+
+Parce que c'est notre vision du partage et parce que nous ne croyons pas
+dans l'enfermement des lecteurs, nous partageons notre développement. 
+Nous espérons qu'il sera repris, amélioré, diffusé, et que d'autres se 
+l'approprieront.
+
+~~~~ Éric, pour l'équipe de [TEA the ebook alternative]
+
+[TEA the ebook alternative]: http://www.tea-ebook.com/
+
+L'application 
+-------------
+
+L'objectif principal de l'application est de pouvoir afficher et lire 
+avec confort des livres électroniques. Parce que tout le monde n'est pas
+connecté en permanence, elle permet de télécharger les livres et de les
+lire hors ligne, sans installation.
+
+L'accès se fait par la vue "bibliothèque". Il s'agit de la vue 
+principale qui présente les livres propres à l'utilisateur sous forme 
+d'étagère avec le titre et les illustrations de couverture. Par une 
+petite icône (i) il est possible d'accéder au résumé du livre (la quatrième 
+de couverture) et les détails concernant l'éditeur, la collection ou les 
+auteurs. C'est aussi dans cette interface que le lecteur peut télécharger
+le livre pour une lecture hors ligne.
+
+L'accès à la liseuse proprement dite se fait via la couverture
+des livres. Le livre est alors ouvert en plein écran, à la dernière
+page lue lors de la précédente lecture. Sur cette interface "liseuse",
+seuls deux indicateurs à droite  et à gauche pour tourner 
+les pages sont présents en plus du texte lui-même. Un menu (en 
+haut) et une barre de progression (en bas) apparaissent après une 
+touche sur écran tactile ou un clic de souris. Le menu permet 
+d'accéder au sommaire et plus tard aux marques-pages et annotations. 
+C'est aussi là qu'on peut régler  l'apparence de la liseuse et la 
+taille des caractères. La barre de progression permet d'afficher la 
+pagination et de naviguer facilement de page en page ou de chapitre 
+en chapitre. Un petit point sur cette barre de progression indique 
+chaque changement de chapitre pour s'y retrouver plus facilement.
+
+Nous cherchons le rendu fidèle des livres tels que les a conçu 
+l'éditeur. Le rendu des titres, les polices et les mises en forme sont 
+donc ceux de l'éditeur. Nous n'avons prévu que les adaptations
+nécessaires à la lecture web, et celles pour le confort de l'utilisateur
+(comme la gestion des tailles de caractères).
+
+Nous nous concentrons sur la lecture elle-même dans un premier temps. 
+D'autres fonctionnalités sociales sont envisagées pour les 
+développements futurs.
+
+
+
+L'état de développement
+-----------------------
+
+Une application de démonstration est disponible à l'adresse 
+<http://demo-open-reader.tea-ebook.com/>. Elle présente quelques 
+livres libres de droits. Il ne s'agit toutefois que d'un aperçu
+d'une version de développement actif et pas d'une version finale : il 
+reste de nombreuses anomalies, certaines fonctionnalités sont manquantes.
+N'hésitez pas à remonter les anomalies relevées. Encore mieux : 
+contactez-nous pour participer aux améliorations, nous vous aiderons à 
+entrer dans le code source pour faire vous même ce qui vous semble utile.
+
+De même, la compatibilité est pour l'instant quasiment limitée aux 
+navigateurs Chrome et iPad. Supporter tous les navigateurs récents est 
+clairement dans les objectifs et l'architecture a été choisie avec ce 
+critère en tête. Entre autres la direction de Mozilla avec la 
+[MarketPlace Firefox] est clairement en phase avec notre vision. Le 
+support de Mozilla Firefox est donc une priorité. Une des difficultés 
+actuelles se trouve dans les mauvaises performances au niveau des 
+injections de contenus par URI en `data:`. Vous serez les bienvenus si vous 
+souhaitez travailler sur la compatibilité entre navigateurs.
+
+Au niveau des contenus nous avons fait le choix de nous baser 
+essentiellement pour l'instant sur les livres numériques au standard 
+epub. La version 2 est sur les rails. Certaines 
+fonctionnalités essentielles de la version 3 sont déjà supportées comme 
+la notion de mise en page fixe, mais il reste encore beaucoup à faire sur 
+les détails et sur les livres enrichis avec du script.
+
+[MarketPlace Firefox]: https://marketplace.mozilla.org/
+
+Diffusion
+---------
+
+Cette application est un projet long terme sur lequel nous nous 
+impliquons et qui est en développement permanent. Il avancera même si 
+nous sommes seuls, mais nous vous encourageons à participer pour pousser 
+vos améliorations, vos priorités, et concevoir ensemble une application 
+libre et ouverte pour tous.
+
+Si vous souhaitez contribuer, n'hésitez pas à nous demander des 
+informations sur ce qui n'est pas encore documenté ou sur le 
+fonctionnement de telle ou telle partie.
+
+L'application elle-même est partagée suivant la [licence GPL 3.0] avec 
+une [exception spécifique] pour les mesures techniques de protection 
+(MTP) quand elles sont requises par les éditeurs. Cette licence vous 
+donne des droits étendus mais comporte tout de même certaines 
+obligations, par exemple si vous souhaitez rediffuser l'application à 
+des tiers. Merci de consulter le contenu de la licence si vous ne la 
+connaissez pas. 
+
+Nous jouons le jeu en partageant au public une application qui est 
+stratégique pour nous. Nous espérons que vous jouerez le jeu vous 
+aussi en nous remontant vos modifications et vos améliorations. C'est 
+ainsi que nous nous enrichirons tous.
+
+Nous attirons toutefois votre attention sur le fait que le nom de 
+l'application et les éventuelles parties de design originales ne sont 
+pas couvertes par la licence. L'objectif est aussi de vous réapproprier 
+l'application, avec votre propre design.
+
+[licence GPL 3.0]: http://www.gnu.org/licenses/gpl-3.0.en.html
+[exception spécifique]: GPL-3-EXCEPTION
+
+La technique
+------------
+
+Le code logiciel est séparé en deux parties : la liseuse elle-même, 
+constituée essentiellement de code CoffeeScript, et une partie serveur 
+en Ruby qui permet d'analyser et préparer les livres pour leur 
+visualisation par la liseuse.
+
+Les dépendances de la partie Ruby sont toutes indiquées dans les codes 
+sources. La partie CoffeeScript a juste besoin d'un navigateur une fois 
+compilée en Javascript.
+
+Le Wiki GitHub décrit les API et procédures d'installation.

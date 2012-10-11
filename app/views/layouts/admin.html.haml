@@ -1,0 +1,56 @@
+-# Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
+-# 
+-# This file is part of TeaBook Open Reader
+-# 
+-# This program is free software: you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation, version 3.0 of the License.
+-# 
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 
+-# You should have received a copy of the GNU General Public License
+-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-# 
+-# An additional permission has been granted as a special exception 
+-# to the GNU General Public Licence. 
+-# You should have received a copy of this exception. If not, see 
+-# <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+
+
+
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %title= content_for?(:title) ? yield(:title) : "TEA Administration"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    %link(href="/images/favicon.ico" rel="shortcut icon")
+
+  %body(class="#{controller_name}_#{action_name}")
+
+    .navbar.navbar-fixed-top
+      %nav.navbar-inner
+        .container
+          %a.brand(href="/admin") TEA Administration
+          .container.nav-collapse
+            %ul.nav
+              - unless admin_signed_in?
+                %li= link_to "Sign in", new_admin_session_path
+              - else
+                %li= link_to "Libraires", admin_booksellers_path
+                %li= link_to "Sign out", destroy_admin_session_path, method: :delete
+    .container
+      .content
+        .row
+          .span12
+            - flash.each do |name, msg|
+              %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+                %a.close{"data-dismiss" => "alert"} ×
+                = msg
+            = yield
+
+    = javascript_include_tag "admin"
