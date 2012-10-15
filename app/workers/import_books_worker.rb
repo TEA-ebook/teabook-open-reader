@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
 # 
 # This file is part of TeaBook Open Reader
@@ -19,9 +21,6 @@
 # You should have received a copy of this exception. If not, see 
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
 
-
-
-# encoding: utf-8
 
 class ImportBooksWorker
   @queue = :import_books

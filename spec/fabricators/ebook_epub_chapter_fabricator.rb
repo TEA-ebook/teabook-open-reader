@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
 # 
 # This file is part of TeaBook Open Reader
@@ -20,7 +22,5 @@
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
 
 
-
-# encoding: utf-8
 Fabricator(:ebook_chapter_component, class_name: 'Ebook::Epub::Chapter') do
 end
