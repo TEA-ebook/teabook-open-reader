@@ -43,9 +43,7 @@ gem 'resque-pool',
   github: "spk/resque-pool",
   branch: "improve_tasks"
 
-gem 'peregrin',
-  github: "joseph/peregrin",
-  branch: "master"
+gem 'peregrin'
 
 group :development do
   gem 'letter_opener'
