@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
 # 
 # This file is part of TeaBook Open Reader
@@ -21,7 +23,6 @@
 
 
 
-# encoding: utf-8
 # Be sure to restart your server when you modify this file.
 
 # You can add backtrace silencers for libraries that you're using but don't wish to see in your backtraces.

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
 # 
 # This file is part of TeaBook Open Reader
@@ -20,8 +22,6 @@
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
 
 
-
-# encoding: utf-8
 config = YAML.load_file File.expand_path("../../redis.yml", __FILE__)
 $redis = Redis.connect config[Rails.env]
 Resque.redis = $redis

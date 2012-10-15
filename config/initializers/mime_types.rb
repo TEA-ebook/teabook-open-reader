@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Copyright (C) 2012  TEA, the ebook alternative <http://www.tea-ebook.com/>
 # 
 # This file is part of TeaBook Open Reader
@@ -20,8 +22,6 @@
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
 
 
-
-# encoding: utf-8
 # Be sure to restart your server when you modify this file.
 
 # Add new mime types for use in respond_to blocks:
