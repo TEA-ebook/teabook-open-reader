@@ -218,7 +218,6 @@ App.Flippers.DoublePages = (reader) ->
   loadPage = (pageDiv, side, locus, callback) ->
     showPage pageDiv  # XXX The page have to be visible, or Monocle can't load it
     p.reader.getBook().setOrLoadPageAt pageDiv, locus, (locus) ->
-      pageDiv.m.dimensions.translateToLocus locus
       if locus.layout == "pre-paginated" && locus.dimensions
         noMargin pageDiv
         fixDimensions pageDiv, locus.dimensions
@@ -228,6 +227,7 @@ App.Flippers.DoublePages = (reader) ->
       else
         withMargin pageDiv
         resetDimensions pageDiv
+      pageDiv.m.dimensions.translateToLocus locus
       callback locus
 
   # Does this page is shown or blank?
