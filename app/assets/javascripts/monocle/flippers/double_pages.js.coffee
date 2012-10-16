@@ -434,13 +434,6 @@ App.Flippers.DoublePages = (reader) ->
     return false if page.m.activeFrame.style.visibility == "hidden"
     true
 
-  hidePage = (page, other) ->
-    page.m.activeFrame.parentNode.parentNode.style.display = "none"
-    if other
-      cmpt = other.m.place.properties.component
-      page.m.place ||= new Monocle.Place()
-      page.m.place.setPlace cmpt, 0
-
   # Does the last page of a component is blank because of a page-spread?
   lastPageIsBlank = (side, place, locus) ->
     return false unless locus.pageSpread
