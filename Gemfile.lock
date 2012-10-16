@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/joseph/peregrin.git
-  revision: 303a3ccf0f9e2a6098a9c1a19006fe9dd8cf6bf4
-  branch: master
-  specs:
-    peregrin (1.1.4)
-      mime-types
-      nokogiri
-      zipruby
-
-GIT
   remote: git://github.com/pivotal/jasmine-gem.git
   revision: 73ea302cb663a6aef00b9a08222c75662f0f117c
   specs:
@@ -181,6 +171,10 @@ GEM
     mustache (0.99.4)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
+    peregrin (1.2.1)
+      mime-types
+      nokogiri
+      zipruby
     polyglot (0.3.3)
     pry (0.9.10)
       coderay (~> 1.0.5)
@@ -341,7 +335,7 @@ DEPENDENCIES
   mongoid-rspec (= 1.4.4)
   mongoid-tree (~> 0.7)
   nokogiri
-  peregrin!
+  peregrin
   pry-rails
   quiet_assets
   rails (= 3.2.8)
