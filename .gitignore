@@ -48,3 +48,6 @@ coverage
 # Ignore sprites
 app/assets/images/*-*.png
 app/assets/images/*/*-*.png
+
+# Secret token
+config/initializers/secret_token.rb
