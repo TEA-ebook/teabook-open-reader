@@ -51,3 +51,7 @@ app/assets/images/*/*-*.png
 
 # Secret token
 config/initializers/secret_token.rb
+
+# Vagrant file
+script/vagrant/Vagrantfile
+script/vagrant/.vagrant
