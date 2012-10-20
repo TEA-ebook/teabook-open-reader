@@ -47,9 +47,10 @@ class App.Views.EbookReaderSandbox extends Backbone.View
   keyhandler: (keycode) =>
     return unless @flipper
     action = App.Misc.KeyCodes[keycode]
+    nbPages = if @flipper.onSinglePage() then 1 else 2
     switch action
-      when 'left'  then @flipper.moveTo direction: -1
-      when 'right' then @flipper.moveTo direction:  1
+      when 'left'  then @flipper.moveTo direction: -nbPages
+      when 'right' then @flipper.moveTo direction:  nbPages
 
   showMenu: =>
     unless @lockMenu
