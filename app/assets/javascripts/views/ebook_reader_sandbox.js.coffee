@@ -29,6 +29,27 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     'click .settings':    'toggleSettings'
     'click .library':     'backToLibrary'
     'mouseover #reader':  'showMenu'
+    'keydown':            'keydown'
+
+  initialize: ->
+    @textLocator = new App.Misc.TextLocator
+    @reader_options =
+      flipper: App.Flippers.DoublePages
+      panels: App.Panels.Arrows
+    App.messages.on 'receive:orientation:change', @changeOrientation
+    App.messages.on 'receive:resize', _.throttle(@sizeChanged, 1000)
+    App.messages.on 'receive:keydown', @keyhandler
+    @model.set 'sandbox', true
+
+  keydown: (event) =>
+    @keyhandler event.keyCode
+
+  keyhandler: (keycode) =>
+    return unless @flipper
+    action = App.Misc.KeyCodes[keycode]
+    switch action
+      when 'left'  then @flipper.moveTo direction: -1
+      when 'right' then @flipper.moveTo direction:  1
 
   showMenu: =>
     unless @lockMenu
@@ -39,19 +60,11 @@ class App.Views.EbookReaderSandbox extends Backbone.View
           @lockMenu = false
         , 4000
 
-  bindClickToShowMenu: =>
+  bindEventsInIframes: =>
     for iframe in $('iframe')
-      $($(iframe).contents().get(0).body).hammer()
-        .bind 'tap', @showMenu
-
-  initialize: ->
-    @textLocator = new App.Misc.TextLocator
-    @reader_options =
-      flipper: App.Flippers.DoublePages
-      panels: App.Panels.Arrows
-    App.messages.on 'receive:orientation:change', @changeOrientation
-    App.messages.on 'receive:resize', _.throttle(@sizeChanged, 1000)
-    @model.set 'sandbox', true
+      body = $($(iframe).contents().get(0).body)
+      body.keydown @keydown
+      body.hammer().bind 'tap', @showMenu
 
   render: ->
     @$el.html SMT['ebook/reader_sandbox'] @model.toJSON()
@@ -96,8 +109,8 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     reader.listen 'monocle:componentchange', @anchorBinder.process
 
     # Bind iPad click to show Menus
-    reader.listen 'monocle:loaded', @bindClickToShowMenu
-    reader.listen 'monocle:componentmodify', @bindClickToShowMenu
+    reader.listen 'monocle:loaded', @bindEventsInIframes
+    reader.listen 'monocle:componentmodify', @bindEventsInIframes
 
     # Bind specific events to our view
     reader.listen 'monocle:loaded', @bindPlayerEvents

@@ -22,6 +22,8 @@
 
 
 class App.Views.EbookReader extends Backbone.View
+  events:
+    'keydown': 'keyhandler'
 
   initialize: (options)->
     @params = options.params
@@ -89,3 +91,9 @@ class App.Views.EbookReader extends Backbone.View
 
   openExternalLink: (href)->
     window.open href
+
+  keyhandler: (event) ->
+    if App.Misc.KeyCodes.hasOwnProperty event.keyCode
+      App.messages.send
+        type: "keydown"
+        content: event.keyCode
