@@ -908,6 +908,7 @@ App.Flippers.DoublePages = (reader) ->
   API.interactiveMode = interactiveMode
   API.redraw = redraw
   API.toggleForceSinglePage = toggleForceSinglePage
+  API.onSinglePage = onSinglePage
   initialize()
   API
 
