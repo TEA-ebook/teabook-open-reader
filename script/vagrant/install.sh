@@ -11,12 +11,6 @@ bundle install
 # copy default development configuration
 cp config/mongoid/development.yml config/mongoid.yml
 
-# generate a secret
-SECRET=`bundle exec rake secret`
-# put it in config/initializers/secret_token.rb
-cp config/initializers/secret_token.rb.dist config/initializers/secret_token.rb
-sed -i "s/Tea::Application.config.secret_token.*/Tea::Application.config.secret_token = \'$SECRET\'/" config/initializers/secret_token.rb
-
 # create the default bookseller
 bundle exec rake db:seed
 

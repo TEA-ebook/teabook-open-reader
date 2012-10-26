@@ -186,6 +186,8 @@ bundle exec rails g mongoid:config
 
 #### Secret
 
+If you use last versions (9d3f825 and after), this step is performed automatically by an initializer and a rake task so go your way.
+
 Generate a secret with `bundle exec rake secret` and copy it in `config/initializers/secret_token.rb`
 
 ```sh
