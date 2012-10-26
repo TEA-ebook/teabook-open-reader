@@ -29,25 +29,6 @@
       %li.account= link_to 'Mon compte', "#account", 'data-toggle' => 'modal'
       %li.help= link_to 'Aide', "#helpLibrary", 'data-toggle' => 'modal'
 
-  .modal.account.hide#account(style="display: none;")
-    %header
-      <h1>Mon compte</h1>
-      <button class="close" data-dismiss="modal">×</button>
-    %section
-      %ul
-        - if @current_bookseller.present?
-          - if !bookstore_session
-            %li= link_to "Connectez-vous", new_tea_session_path
-          - else
-            %li
-              Connecté en tant que #{current_user.account(@current_bookseller.bookstore_id)['email']}
-              = link_to "Déconnectez-vous", tea_session_path(id: @current_bookseller.bookstore_id), method: :delete
-        - else
-          - session[:tea_sessions].each do |key, value|
-            %li
-              Connecté en tant que #{current_user.account(key)['email']}
-              = link_to "Déconnectez-vous de #{key}", tea_session_path(id: key), method: :delete, class: :btn
-
 - else
   %nav
     %ul
