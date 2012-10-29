@@ -1,0 +1,71 @@
+{
+  "results": [
+    {
+      "id": "123",
+      "bookstore_id": "tea",
+      "title": "Ebook 1",
+      "subtitle": "Ebook 1 subtitle",
+      "authors": [
+        {"author_name": "William Shakespear", "role": "role 1", "main": true },
+        {"author_name": "Honoré de Balzac", "role": "role 2", "main": false }
+      ],
+      "format": "epub",
+      "language": "fr",
+      "license": "none",
+      "publisher": {
+        "publisher_name": "Publisher name 1",
+        "collection": "Collection 1",
+        "publication_date": "2011-07-30T01:00:00+01:00"
+      },
+      "purchase": {
+        "type": "bought",
+        "date": "2011-07-30T01:00:00+01:00"
+      },
+      "reading_position": {
+        "epub_cfi": "#chapter-42",
+        "updated_at": "2012-06-14T15:03:21+02:00"
+      },
+      "number_of_bookmarks": "42",
+      "descriptions": [
+        {
+          "type": "summary",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        }
+      ],
+      "cover": "http://www.indawave.com/wp-content/uploads/2006/09/Bernard-Werber-Les-Fourmis.jpg"
+    },
+    {
+      "id": "125",
+      "bookstore_id": "tea",
+      "title": "Dictionnaire des idées reçues",
+      "subtitle": "Oeuvre postume",
+      "authors": [
+        {"author_name": "Gustave Flaubert", "role": "role 1", "main": true }
+      ],
+      "format": "epub",
+      "language": "fr",
+      "license": "none",
+      "publisher": {
+        "publisher_name": "Publisher name 1",
+        "collection": "Collection 1",
+        "publication_date": "2011-07-30T01:00:00+01:00"
+      },
+      "purchase": {
+        "type": "bought",
+        "date": "2011-07-30T01:00:00+01:00"
+      },
+      "reading_position": {
+        "epub_cfi": "#chapter-42",
+        "updated_at": "2012-06-14T15:03:21+02:00"
+      },
+      "number_of_bookmarks": "42",
+      "descriptions": [
+        {
+          "type": "summary",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        }
+      ],
+      "cover": "http://www.indawave.com/wp-content/uploads/2006/09/Bernard-Werber-Les-Fourmis.jpg"
+    }
+  ]
+}

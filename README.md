@@ -241,6 +241,8 @@ or, without code reloading
 bundle exec thin -R tea_api.ru start -p 4567
 ```
 
+The API is now configurable. To have more details about it, read the [corresponding wiki page][configurableapi].
+
 ### Installation with vagrant
 
 This is the easier way to run TeaBook Open Reader.
@@ -324,6 +326,7 @@ Javascript only (headless)
 [Optipng]: http://optipng.sourceforge.net/ "Optipng"
 [jpegoptim]: http://www.kokkonen.net/tjko/projects.html "JpegOptim"
 [api]: https://github.com/TEA-ebook/teabook-open-reader/wiki/Api "API"
+[configurableapi]: https://github.com/TEA-ebook/teabook-open-reader/wiki/configurable-fake-api "Configurable fake API"
 [VirtualBox]: https://www.virtualbox.org/ "VirtualBox"
 [vagrant]: http://vagrantup.com/ "Vagrant"
 

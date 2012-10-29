@@ -1,0 +1,15 @@
+{
+  "user": {
+    "id": "24",
+    "email": "johndoe@example.com",
+    "firstname": "John",
+    "lastname": "Doe",
+    "birthdate": "1980-07-30T01:00:00+01:00",
+    "country": "FR",
+    "bookstore": "tea"
+  },
+  "session":{
+    "id": "bc115cd99c07e710413b01bc2799e026",
+    "expire": 1374329344
+  }
+}
