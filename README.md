@@ -17,15 +17,18 @@ TeaBook Open Reader
 **TOC**
 
 
-* The application
-* Development status
-* Distribution
-* Technical details
- * Requirements (debian squeeze and ubuntu 12.04)
- * Installation from scratch
- * Installation with vagrant (debian squeeze and ubuntu 12.04)
- * Specs
+* [The application](#the-application)
+* [Development status](#development-status)
+* [Distribution](#distribution)
+* [Technical details](#technical-details)
+    * [Requirements](#requirements)
+        * [Debian Squeeze](#debian-squeeze)
+        * [Ubuntu 12.04 precise](#ubuntu-1204-precise)
+    * [Installation from scratch](#installation-from-scratch)
+    * [Installation with vagrant](#installation-with-vagrant)
+    * [Specs](#specs)
 
+<a name="the-application" />
 The application  
 ---------------
 
@@ -58,6 +61,7 @@ comfort (e.g. font size manager).
 We are initially concentrating on the reading experience itself. Other social
 functionalities are on the cards for future developments.
 
+<a name="development-status" />
 Development status 
 ------------------
 
@@ -82,7 +86,7 @@ standard EPUB format. Version 2 is almost ready to go. Certain key version 3
 functionalities, such as fixed layout, are already supported, but a lot of
 work still needs to be done on the finer details, and on embedded Javascript.
 
-
+<a name="distribution" />
 Distribution 
 ------------
 
@@ -108,7 +112,7 @@ Please note that the application's name and certain parts of its original
 design are not covered by the licence. This is so that you can personalise the
 application with your own design.
 
-
+<a name="technical-details" />
 Technical details 
 -----------------
 
@@ -119,6 +123,7 @@ be able to analyse and prepare books for viewing on the reader.
 Ruby-dependent code is indicated in the source code. The CoffeeScript section
 just requires a browser once compiled in JavaScript.
 
+<a name="requirements" />
 ### Requirements
 
 * Redis
@@ -128,6 +133,7 @@ just requires a browser once compiled in JavaScript.
 * [Optipng][] and [jpegoptim][]
 * bundler
 
+<a name="debian-squeeze" />
 #### Debian squeeze
 
 Instructions on a Debian Squeeze, using bearstech and mongo repositories :
@@ -142,6 +148,7 @@ sudo apt-get -yqq --force-yes install make vim zlib1g-dev unzip git-core g++ lib
 sudo apt-get -yqq remove ruby1.8
 ```
 
+<a name="ubuntu-1204-precise" />
 #### Ubuntu 12.04 precise
 
 ```sh
@@ -243,6 +250,7 @@ bundle exec thin -R tea_api.ru start -p 4567
 
 The API is now configurable. To have more details about it, read the [corresponding wiki page][configurableapi].
 
+<a name="installation-with-vagrant" />
 ### Installation with vagrant
 
 This is the easier way to run TeaBook Open Reader.
@@ -301,6 +309,7 @@ vagrant ssh
 7 - open your browser on `http://<vm ip>:3000`
 
 
+<a name="specs" />
 ### Specs
 
 Guard (Ruby+Javascript)
