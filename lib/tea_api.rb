@@ -19,16 +19,48 @@
 # You should have received a copy of this exception. If not, see 
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
 
+require "json"
+
 class TeaApi < Sinatra::Application
   post '/app/authentication' do
-    File.read "public/mock_api/authentication.json"
+    config = getConf
+    if config[:yesapi]
+      return File.read "public/mock_api/authentication.json"
+    else
+      users = config[:users]
+      datas = JSON.parse params.keys.first
+      email = datas["user"]["email"]
+      users.each do |u|
+        return File.read "public/mock_api/#{u[:id]}/authentication.json" if u[:email] == email
+      end
+      403
+    end
+  end
+
+  error 403 do
+    return File.read "public/mock_api/forbidden.json"
   end
 
   get '/users/:id/publications' do
-    File.read "public/mock_api/publications.json"
+    config = getConf
+    if config[:yesapi]
+      File.read "public/mock_api/publications.json"
+    else
+      File.read "public/mock_api/#{params[:id]}/publications.json"
+    end
   end
 
   get '/publications/:id/download' do
-    File.read "public/mock_api/example.epub"
+    config = getConf
+    if config[:yesapi]
+      File.read "public/mock_api/epubs/example.epub"
+    else
+      File.read "public/mock_api/epubs/#{params[:id]}.epub"
+    end
+  end
+
+  private
+  def getConf
+    YAML.load_file("public/mock_api/config.yml")
   end
 end
