@@ -27,9 +27,9 @@ class App.Views.EbookPreview extends Backbone.View
     ebook_json = @model.toJSON()
 
     # Formatter for publication date
-    ebook_json['formatted_publication_date'] = () -> 
-        publication_date = moment(new Date(@publication_date))
-        publication_date.format('D/MM/YYYY')
+    ebook_json.formatted_publication_date = () -> 
+      publication_date = moment new Date @publication_date
+      publication_date.format 'D/MM/YYYY'
 
     @$el.html(SMT['ebook/preview'] _.extend(_.clone(@model.getMetaData()), ebook_json))
     @
