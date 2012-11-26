@@ -101,6 +101,10 @@ class App.Views.EbookReaderSandbox extends Backbone.View
       @menuControl.render().el
     reader.addControl menuControl, 'standard'
 
+    # Stencil
+    stencil = new Monocle.Controls.Stencil reader
+    reader.addControl stencil
+
     # Settings
     @settingsPanel = new App.Views.SettingsPanel(reader: @reader)
     @$el.append @settingsPanel.render().el
