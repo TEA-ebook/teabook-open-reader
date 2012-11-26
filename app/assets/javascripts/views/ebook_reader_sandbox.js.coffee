@@ -28,6 +28,7 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     'click .details':     'toggleDetails'
     'click .settings':    'toggleSettings'
     'click .library':     'backToLibrary'
+    'click .goback':      'goBackLink'
     'mouseover #reader':  'showMenu'
     'keydown':            'keydown'
 
@@ -104,8 +105,10 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     @settingsPanel = new App.Views.SettingsPanel(reader: @reader)
     @$el.append @settingsPanel.render().el
 
+    # Go back link
+    @anchorGoBack = new App.Misc.AnchorGoBack(@reader, $('a.menu.goback'))
     # Anchor binder
-    @anchorBinder = new App.Misc.AnchorBinder(@reader, @)
+    @anchorBinder = new App.Misc.AnchorBinder(@reader, @, @anchorGoBack)
     reader.listen 'monocle:loaded', @anchorBinder.process
     reader.listen 'monocle:componentchange', @anchorBinder.process
 
@@ -257,3 +260,7 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     App.messages.send
       type: 'navigate'
       content: '/ebook/epubs'
+
+  goBackLink: (e) =>
+    e.preventDefault()
+    @anchorGoBack.go()

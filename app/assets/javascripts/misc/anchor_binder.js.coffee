@@ -25,7 +25,7 @@
 # internal links and bind a Monocle moveTo to the click event.
 
 class App.Misc.AnchorBinder
-  constructor: (@reader, @view) ->
+  constructor: (@reader, @view, @anchorGoBack) ->
 
   process: ()=>
     _.each @view.contentFrames(), (contentFrame)=>
@@ -56,7 +56,14 @@ class App.Misc.AnchorBinder
   bindInternalLink: (link, locus)->
     link.on 'click', (event)=>
       event.preventDefault()
-      @reader.moveTo locus
+      if @anchorGoBack.can(link[0].href)
+        # go back using the "real" last position
+        # and not the position of the anchor
+        @anchorGoBack.go()
+      else
+        # just follow the link
+        @anchorGoBack.followLinkFrom link[0].id
+        @reader.moveTo locus
 
   bindExternalLink: (link)->
     link.on 'click', (event)->
