@@ -37,6 +37,8 @@
 //= require mustache
 //= require_tree ../../../templates
 //= require bootstrap-modal
+//= require moment
+//= require moment.fr
 //= require monocore
 //= require monoctrl
 //= require_tree ../monocle
