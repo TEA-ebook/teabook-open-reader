@@ -50,14 +50,6 @@ module Tea
     config.assets.enabled = true
     config.assets.version = '1.0'
     config.assets.js_compressor = :uglifier
-    config.assets.precompile += [
-      'reader.js',
-      'reader.css',
-      'reader_sandbox.js',
-      'reader_sandbox.css',
-      'admin.js',
-      'customization_*.css'
-    ]
 
     config.generators do |g|
       g.template_engine :haml
