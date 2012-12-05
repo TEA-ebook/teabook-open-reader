@@ -36,6 +36,9 @@ App.Controls.DoubleArrowPanel = () ->
       cancel: cancel
     ,
       useCapture: false
+    Monocle.Events.listenForTap
+      p.div,
+      tap
     p.div
 
   listenTo = (evtCallbacks) ->
@@ -44,17 +47,19 @@ App.Controls.DoubleArrowPanel = () ->
   deafen = ->
     p.evtCallbacks = {}
 
-  start = (evt) ->
-    dir = ""
-    width = p.div.clientWidth
+  getDirection = (evt) ->
     x = evt.m.offsetX
     if x < width / 10
       dir = "backwards"
     else if x > 9 * width / 10
       dir = "forwards"
-    p.direction = dir.toUpperCase()
+    dir
+
+  start = (evt) ->
+    dir = ""
+    width = p.div.clientWidth
+    p.direction = getDirection(evt).toUpperCase()
     p.contact = true
-    p.moved = false
     evt.m.offsetX += p.div.offsetLeft
     evt.m.offsetY += p.div.offsetTop
     expand()
@@ -62,7 +67,6 @@ App.Controls.DoubleArrowPanel = () ->
 
   move = (evt) ->
     return  unless p.contact
-    p.moved = true
     invoke "move", evt
 
   end = (evt) ->
@@ -79,8 +83,13 @@ App.Controls.DoubleArrowPanel = () ->
     p.contact = false
     invoke "cancel", evt
 
+  tap = (evt) ->
+    x = evt.m.offsetX
+    p.direction = getDirection(evt).toUpperCase()
+    invoke "tap", evt
+
   invoke = (evtType, evt) ->
-    p.evtCallbacks[evtType] API, evt.m.offsetX, evt.m.offsetY, p.direction, p.moved  if p.evtCallbacks[evtType]
+    p.evtCallbacks[evtType] API, evt.m.offsetX, evt.m.offsetY, p.direction  if p.evtCallbacks[evtType]
     evt.preventDefault()
 
   expand = ->

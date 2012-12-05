@@ -121,11 +121,12 @@ App.Flippers.DoublePages = (reader) ->
         turning k[direction], x
 
       end: (panel, x, y, direction, moved) ->
-        if !moved && direction == ""
-          p.reader.dispatchEvent "teabook:tap:middle"
-          return
         return if direction == ""
         q "release", panel, x, y, direction
+
+      tap: (panel, x, y, direction) ->
+        if direction == ""
+          p.reader.dispatchEvent "teabook:tap:middle"
 
       cancel: (panel, x, y, direction) ->
         return if direction == ""
