@@ -23,15 +23,10 @@
 
 App.Panels.Arrows = (flipper, evtCallbacks) ->
   initialize = ->
-    panels =
-      forwards: new App.Controls.ArrowPanel('forwards')
-      backwards: new App.Controls.ArrowPanel('backwards')
+    panel = new App.Controls.DoubleArrowPanel()
 
-    for dir, panel of panels
-      flipper.properties.reader.addControl panel
-      panel.listenTo evtCallbacks
-      panel.properties.direction = flipper.constants[dir.toUpperCase()]
-      panel.properties.div.classList.add(dir)
+    flipper.properties.reader.addControl panel
+    panel.listenTo evtCallbacks
     flipper.interactiveMode true  if flipper.interactiveMode
 
   API = constructor: App.Panels.Arrows

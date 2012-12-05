@@ -103,8 +103,8 @@ App.Flippers.DoublePages = (reader) ->
     unless typeof panelClass is "function"
       panelClass = k.DEFAULT_PANELS_CLASS
       console.warn "Invalid panel class."  unless panelClass
-    q = (action, panel, x) ->
-      dir = panel.properties.direction
+    q = (action, panel, x, y, direction) ->
+      dir = k[direction]
       dir = -dir if p.reader.properties.rtl
       if action is "lift"
         lift dir, x
@@ -112,17 +112,24 @@ App.Flippers.DoublePages = (reader) ->
         release dir, x
 
     p.panels = new panelClass(API,
-      start: (panel, x) ->
-        q "lift", panel, x
+      start: (panel, x, y, direction) ->
+        return if direction == ""
+        q "lift", panel, x, y, direction
 
-      move: (panel, x) ->
-        turning panel.properties.direction, x
+      move: (panel, x, y, direction) ->
+        return if direction == ""
+        turning k[direction], x
 
-      end: (panel, x) ->
-        q "release", panel, x
+      end: (panel, x, y, direction, moved) ->
+        if !moved && direction == ""
+          p.reader.dispatchEvent "teabook:tap:middle"
+          return
+        return if direction == ""
+        q "release", panel, x, y, direction
 
-      cancel: (panel, x) ->
-        q "release", panel, x
+      cancel: (panel, x, y, direction) ->
+        return if direction == ""
+        q "release", panel, x, y, direction
     )
 
 

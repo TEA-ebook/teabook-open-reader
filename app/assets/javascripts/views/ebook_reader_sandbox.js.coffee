@@ -66,7 +66,6 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     for iframe in $('iframe')
       body = $($(iframe).contents().get(0).body)
       body.keydown @keydown
-      body.hammer().bind 'tap', @showMenu
 
   render: ->
     @$el.html SMT['ebook/reader_sandbox'] @model.toJSON()
@@ -131,6 +130,8 @@ class App.Views.EbookReaderSandbox extends Backbone.View
 
     # Hide loader
     reader.listen 'monocle:loaded', @hideLoader
+
+    reader.listen 'teabook:tap:middle', @showMenu
 
     # Prevent from printing Ebook with DRM
     unless @model.printable()
