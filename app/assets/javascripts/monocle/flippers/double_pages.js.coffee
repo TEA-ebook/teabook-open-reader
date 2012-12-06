@@ -115,12 +115,16 @@ App.Flippers.DoublePages = (reader) ->
       page = leftPage()
       sheaf = page.dom.find 'sheaf'
       currentScale = ((el) ->
-          unless isNaN parseInt el.style.transform, 10
-            return el.style.transform
-          unless isNaN parseInt el.style.MozTransform, 10
-            return el.style.MozTransform
-          unless isNaN parseInt el.style.WebkitTransform, 10
-            return el.style.WebkitTransform
+          expr = /scale(3d)?\(([0-9.]+)\)/
+          if el.style.transform
+            matches = el.style.transform.match expr
+            return parseFloat matches[2]
+          if el.style.MozTransform
+            matches = el.style.MozTransform.match expr
+            return parseFloat matches[2]
+          if el.style.WebkitTransform
+            matches = el.style.WebkitTransform.match expr
+            return parseFloat matches[2]
           return 1
         )(sheaf)
       newScale = currentScale * e.scale
@@ -148,7 +152,8 @@ App.Flippers.DoublePages = (reader) ->
 
       end: (panel, e, direction) ->
         if direction == ""
-          #z panel, 3, y, direction
+          #e.scale = 2
+          #z panel, e, direction
           p.reader.dispatchEvent "teabook:tap:middle"
         else
           q "release", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction

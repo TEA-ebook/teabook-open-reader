@@ -151,10 +151,7 @@ App.Controls.DoubleArrowPanel = () ->
 
   transformend = (evt) ->
     p.direction = ""
-    invoke "gestureend",
-      m:
-        offsetX: evt.scale
-        offsetY: 0
+    invoke "gestureend", evt
 
   gestureCancel = (evt) ->
 
