@@ -111,26 +111,54 @@ App.Flippers.DoublePages = (reader) ->
       else if action is "release"
         release dir, x
 
-    p.panels = new panelClass(API,
-      start: (panel, x, y, direction) ->
-        return if direction == ""
-        q "lift", panel, x, y, direction
+    z = (panel, e, direction) ->
+      page = leftPage()
+      sheaf = page.dom.find 'sheaf'
+      currentScale = ((el) ->
+          unless isNaN parseInt el.style.transform, 10
+            return el.style.transform
+          unless isNaN parseInt el.style.MozTransform, 10
+            return el.style.MozTransform
+          unless isNaN parseInt el.style.WebkitTransform, 10
+            return el.style.WebkitTransform
+          return 1
+        )(sheaf)
+      newScale = currentScale * e.scale
+      delta = Math.abs newScale - 1
+      if delta > 0.1
+        # really scale
+        transform = "scale(#{newScale})"
+      else
+        # return to original scale
+        transform = ""
+      
+      page.style.overflow = 'hidden'
+      sheaf.style.WebkitTransform = transform
+      sheaf.style.MozTransform = transform
+      sheaf.style.transform = transform
 
-      move: (panel, x, y, direction) ->
+    p.panels = new panelClass(API,
+      start: (panel, e, direction) ->
+        return if direction == ""
+        q "lift", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction
+
+      move: (panel, e, direction) ->
         return if direction == ""
         turning k[direction], x
 
-      end: (panel, x, y, direction, moved) ->
-        return if direction == ""
-        q "release", panel, x, y, direction
-
-      tap: (panel, x, y, direction) ->
+      end: (panel, e, direction) ->
         if direction == ""
+          #z panel, 3, y, direction
           p.reader.dispatchEvent "teabook:tap:middle"
+        else
+          q "release", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction
 
-      cancel: (panel, x, y, direction) ->
+      cancel: (panel, e, direction) ->
         return if direction == ""
-        q "release", panel, x, y, direction
+        q "release", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction
+
+      gestureend: (panel, e, direction) ->
+        z panel, e, direction
     )
 
 

@@ -29,16 +29,25 @@ App.Controls.DoubleArrowPanel = () ->
       p["arrow_#{direction}"].dom.addClass direction
       p["arrow_#{direction}"].dom.setStyles k.DEFAULT_STYLES.arrow[direction]
     p.div.dom.setStyles k.DEFAULT_STYLES.panel
-    Monocle.Events.listenForContact p.div,
-      start: start
-      move: move
-      end: end
-      cancel: cancel
-    ,
-      useCapture: false
-    Monocle.Events.listenForTap
-      p.div,
-      tap
+    hammer = $(p.div).hammer()
+    hammer.bind 'tap', (e) ->
+      tap fixEvt e
+    hammer.bind 'transformend', (e) ->
+      transformend fixEvt e
+    hammer.bind 'dragstart', (e) ->
+      start fixEvt e
+    hammer.bind 'drag', (e) ->
+      move fixEvt e
+    hammer.bind 'dragend', (e) ->
+      end fixEvt e
+    #Monocle.Events.listenForContact p.div,
+    #  start: start
+    #  move: move
+    #  end: end
+    #  cancel: cancel
+    #,
+    #  useCapture: false
+    #Monocle.Events.listenForTap p.div, tap
     p.div
 
   listenTo = (evtCallbacks) ->
@@ -48,20 +57,20 @@ App.Controls.DoubleArrowPanel = () ->
     p.evtCallbacks = {}
 
   getDirection = (evt) ->
-    x = evt.m.offsetX
+    dir = ""
+    x = evt.touches[0].offsetX
+    width = p.div.clientWidth
     if x < width / 10
       dir = "backwards"
     else if x > 9 * width / 10
       dir = "forwards"
-    dir
+    dir.toUpperCase()
 
   start = (evt) ->
-    dir = ""
-    width = p.div.clientWidth
-    p.direction = getDirection(evt).toUpperCase()
+    p.direction = getDirection evt
     p.contact = true
-    evt.m.offsetX += p.div.offsetLeft
-    evt.m.offsetY += p.div.offsetTop
+    #evt.m.offsetX += p.div.offsetLeft
+    #evt.m.offsetY += p.div.offsetTop
     expand()
     invoke "start", evt
 
@@ -84,12 +93,46 @@ App.Controls.DoubleArrowPanel = () ->
     invoke "cancel", evt
 
   tap = (evt) ->
-    x = evt.m.offsetX
-    p.direction = getDirection(evt).toUpperCase()
-    invoke "tap", evt
+    p.direction = getDirection evt
+    invoke "start", evt
+    invoke "end", evt
+
+  fixEvt = (e) ->
+    unless e.position
+      e.position = p.lastEvt.position
+
+    target = e.target || e.srcElement
+    while target.nodeType != 1 && target.parentNode
+      target = target.parentNode
+    for touch in e.touches
+      offset = offsetFor touch, target
+      touch.offsetX = offset[0]
+      touch.offsetY = offset[1]
+
+    p.lastEvt = e
+    e
+
+  offsetFor = (touch, elem) ->
+    if elem.getBoundingClientRect
+      # Why subtract documentElement position? It's always zero, right?
+      # Nope, not on Android when zoomed in.
+      dr = document.documentElement.getBoundingClientRect()
+      er = elem.getBoundingClientRect()
+      r =
+        left: er.left - dr.left
+        top: er.top - dr.top
+    else
+      r =
+        left: elem.offsetLeft
+        top: elem.offsetTop
+      while (elem = elem.offsetParent)
+        if elem.offsetLeft || elem.offsetTop
+          r.left += elem.offsetLeft
+          r.top += elem.offsetTop
+    [touch.x - r.left, touch.y - r.top]
 
   invoke = (evtType, evt) ->
-    p.evtCallbacks[evtType] API, evt.m.offsetX, evt.m.offsetY, p.direction  if p.evtCallbacks[evtType]
+    p.evtCallbacks[evtType] API, evt, p.direction  if p.evtCallbacks[evtType]
     evt.preventDefault()
 
   expand = ->
@@ -101,6 +144,19 @@ App.Controls.DoubleArrowPanel = () ->
     return  unless p.expanded
     p.div.dom.removeClass k.CLS.expanded
     p.expanded = false
+
+  gestureStart = (evt) ->
+
+  gestureMove = (evt) ->
+
+  transformend = (evt) ->
+    p.direction = ""
+    invoke "gestureend",
+      m:
+        offsetX: evt.scale
+        offsetY: 0
+
+  gestureCancel = (evt) ->
 
   API = constructor: App.Controls.DoubleArrowPanel
   k = API.constants = API.constructor
