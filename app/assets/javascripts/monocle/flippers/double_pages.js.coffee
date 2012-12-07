@@ -218,6 +218,23 @@ App.Flippers.DoublePages = (reader) ->
 
       gestureend: (panel, e, direction) ->
         z panel, e, direction
+
+      doubletap: (panel, e, direction) ->
+        return unless direction == ""
+        page = leftPage()
+        sheaf = page.dom.find 'sheaf'
+        currentScale = getScaleFor sheaf
+        scales = [1, 2, 5]
+        scale = 1
+        l = scales.length
+        if currentScale > scales[l - 1] || currentScale < scales[0]
+          scale = scales[0]
+        else
+          for i in [1...l]
+            if scales[i - 1] <= currentScale < scales[i]
+              scale = scales[i]
+              break
+        applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
     )
 
 

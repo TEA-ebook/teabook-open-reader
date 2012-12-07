@@ -34,6 +34,7 @@ App.Controls.DoubleArrowPanel = () ->
       swipe: false
       hold: false
     hammer.bind 'tap', proxyEvent tap
+    hammer.bind 'doubletap', proxyEvent doubletap
     hammer.bind 'transformend', proxyEvent transformend
     hammer.bind 'dragstart', proxyEvent start
     hammer.bind 'drag', proxyEvent move
@@ -139,6 +140,10 @@ App.Controls.DoubleArrowPanel = () ->
     p.direction = getDirection evt
     invoke "start", evt
     invoke "end", evt
+
+  doubletap = (evt) ->
+    p.direction = ""
+    invoke "doubletap", evt
 
   swipe = (evt) ->
     alert "swipe #{evt.direction}"
