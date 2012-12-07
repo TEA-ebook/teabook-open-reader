@@ -29,26 +29,71 @@ App.Controls.DoubleArrowPanel = () ->
       p["arrow_#{direction}"].dom.addClass direction
       p["arrow_#{direction}"].dom.setStyles k.DEFAULT_STYLES.arrow[direction]
     p.div.dom.setStyles k.DEFAULT_STYLES.panel
-    hammer = $(p.div).hammer()
-    hammer.bind 'tap', (e) ->
-      tap fixEvt e
-    hammer.bind 'transformend', (e) ->
-      transformend fixEvt e
-    hammer.bind 'dragstart', (e) ->
-      start fixEvt e
-    hammer.bind 'drag', (e) ->
-      move fixEvt e
-    hammer.bind 'dragend', (e) ->
-      end fixEvt e
-    #Monocle.Events.listenForContact p.div,
-    #  start: start
-    #  move: move
-    #  end: end
-    #  cancel: cancel
-    #,
-    #  useCapture: false
-    #Monocle.Events.listenForTap p.div, tap
+    hammer = $(p.div).hammer
+      prevent_default: true
+      swipe: false
+      hold: false
+    hammer.bind 'tap', proxyEvent tap
+    hammer.bind 'transformend', proxyEvent transformend
+    hammer.bind 'dragstart', proxyEvent start
+    hammer.bind 'drag', proxyEvent move
+    hammer.bind 'dragend', proxyEvent end
     p.div
+
+  proxyEvent = (fn) ->
+    (e) ->
+      evt = makeRelativeEvt e
+      #console.warn evt
+      fn evt
+
+  makeRelativeEvt = (e) ->
+    unless e.position
+      if e.touches && e.touches.length == 1
+        e.position = e.touches[0]
+      else
+        console.error "no position"
+        console.log e
+
+    if e.position
+      if e.position.length
+        if e.position.length == 1
+          e.position = e.position[0]
+        else
+          console.error "many positions ?"
+          console.log e
+
+    target = e.target || e.srcElement
+    while target.nodeType != 1 && target.parentNode
+      target = target.parentNode
+    if e.touches
+      for touch in e.touches
+        offset = offsetFor touch, target
+        touch.offsetX = offset[0]
+        touch.offsetY = offset[1]
+    offset = offsetFor e.position, target
+    e.position.offsetX = offset[0]
+    e.position.offsetY = offset[1]
+
+    e
+
+  offsetFor = (touch, elem) ->
+    if elem.getBoundingClientRect
+      # Why subtract documentElement position? It's always zero, right?
+      # Nope, not on Android when zoomed in.
+      dr = document.documentElement.getBoundingClientRect()
+      er = elem.getBoundingClientRect()
+      r =
+        left: er.left - dr.left
+        top: er.top - dr.top
+    else
+      r =
+        left: elem.offsetLeft
+        top: elem.offsetTop
+      while (elem = elem.offsetParent)
+        if elem.offsetLeft || elem.offsetTop
+          r.left += elem.offsetLeft
+          r.top += elem.offsetTop
+    [touch.x - r.left, touch.y - r.top]
 
   listenTo = (evtCallbacks) ->
     p.evtCallbacks = evtCallbacks
@@ -58,7 +103,7 @@ App.Controls.DoubleArrowPanel = () ->
 
   getDirection = (evt) ->
     dir = ""
-    x = evt.touches[0].offsetX
+    x = evt.position.offsetX
     width = p.div.clientWidth
     if x < width / 10
       dir = "backwards"
@@ -69,8 +114,6 @@ App.Controls.DoubleArrowPanel = () ->
   start = (evt) ->
     p.direction = getDirection evt
     p.contact = true
-    #evt.m.offsetX += p.div.offsetLeft
-    #evt.m.offsetY += p.div.offsetTop
     expand()
     invoke "start", evt
 
@@ -97,39 +140,18 @@ App.Controls.DoubleArrowPanel = () ->
     invoke "start", evt
     invoke "end", evt
 
-  fixEvt = (e) ->
-    unless e.position
-      e.position = p.lastEvt.position
-
-    target = e.target || e.srcElement
-    while target.nodeType != 1 && target.parentNode
-      target = target.parentNode
-    for touch in e.touches
-      offset = offsetFor touch, target
-      touch.offsetX = offset[0]
-      touch.offsetY = offset[1]
-
-    p.lastEvt = e
-    e
-
-  offsetFor = (touch, elem) ->
-    if elem.getBoundingClientRect
-      # Why subtract documentElement position? It's always zero, right?
-      # Nope, not on Android when zoomed in.
-      dr = document.documentElement.getBoundingClientRect()
-      er = elem.getBoundingClientRect()
-      r =
-        left: er.left - dr.left
-        top: er.top - dr.top
+  swipe = (evt) ->
+    alert "swipe #{evt.direction}"
+    if evt.direction == "right"
+      p.direction = "FORWARDS"
+    else if evt.direction == "left"
+      p.direction = "BACKWARDS"
     else
-      r =
-        left: elem.offsetLeft
-        top: elem.offsetTop
-      while (elem = elem.offsetParent)
-        if elem.offsetLeft || elem.offsetTop
-          r.left += elem.offsetLeft
-          r.top += elem.offsetTop
-    [touch.x - r.left, touch.y - r.top]
+      return
+    invoke "start", evt
+    invoke "end", evt
+
+
 
   invoke = (evtType, evt) ->
     p.evtCallbacks[evtType] API, evt, p.direction  if p.evtCallbacks[evtType]

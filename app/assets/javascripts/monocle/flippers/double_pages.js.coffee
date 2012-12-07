@@ -111,27 +111,53 @@ App.Flippers.DoublePages = (reader) ->
       else if action is "release"
         release dir, x
 
+    getScaleFor = (el) ->
+      expr = /scale(3d)?\(([0-9.]+)\)/
+      if el.style.transform
+        matches = el.style.transform.match expr
+        return parseFloat matches[2]
+      if el.style.MozTransform
+        matches = el.style.MozTransform.match expr
+        return parseFloat matches[2]
+      if el.style.WebkitTransform
+        matches = el.style.WebkitTransform.match expr
+        return parseFloat matches[2]
+      return 1
+
+    getTranslationFor = (el, type) ->
+      expr = new RegExp "translate#{type}\\(([0-9.]+)px\\)"
+      if el.style.transform
+        matches = el.style.transform.match expr
+        return 0 unless matches
+        return parseFloat matches[1]
+      if el.style.MozTransform
+        matches = el.style.MozTransform.match expr
+        return 0 unless matches
+        return parseFloat matches[1]
+      if el.style.WebkitTransform
+        matches = el.style.WebkitTransform.match expr
+        return 0 unless matches
+        return parseFloat matches[1]
+      return 0
+      
+
     z = (panel, e, direction) ->
       page = leftPage()
       sheaf = page.dom.find 'sheaf'
-      currentScale = ((el) ->
-          expr = /scale(3d)?\(([0-9.]+)\)/
-          if el.style.transform
-            matches = el.style.transform.match expr
-            return parseFloat matches[2]
-          if el.style.MozTransform
-            matches = el.style.MozTransform.match expr
-            return parseFloat matches[2]
-          if el.style.WebkitTransform
-            matches = el.style.WebkitTransform.match expr
-            return parseFloat matches[2]
-          return 1
-        )(sheaf)
+      currentScale = getScaleFor sheaf
       newScale = currentScale * e.scale
+      # border scale inside [0.2 - 5]
+      newScale = Math.max 0.2, newScale
+      newScale = Math.min newScale, 5
       delta = Math.abs newScale - 1
+      applyScaleAndTranslate page, sheaf, newScale, delta, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
+
+    applyScaleAndTranslate = (page, sheaf, scale, delta, x, y) ->
       if delta > 0.1
-        # really scale
-        transform = "scale(#{newScale})"
+        # really scale but translate only if > 1
+        transform = "scale(#{scale})"
+        if scale > 1
+          transform = "#{transform} translateX(#{x}px) translateY(#{y}px)"
       else
         # return to original scale
         transform = ""
@@ -141,26 +167,54 @@ App.Flippers.DoublePages = (reader) ->
       sheaf.style.MozTransform = transform
       sheaf.style.transform = transform
 
+    m = (panel, e) ->
+      page = leftPage()
+      sheaf = page.dom.find 'sheaf'
+      scale = getScaleFor sheaf
+      currentPosition = e.position
+      dx = currentPosition.x - p.initialPosition.x + p.initialDelta.x
+      dy = currentPosition.y - p.initialPosition.y + p.initialDelta.y
+      applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), dx, dy
+
     p.panels = new panelClass(API,
       start: (panel, e, direction) ->
-        return if direction == ""
-        q "lift", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction
+        if direction != ""
+          applyScaleAndTranslate leftPage(), leftPage().dom.find('sheaf'), 1, 0, 0, 0
+          q "lift", panel, e.position.offsetX, e.position.offsetY, direction
+          return
+        sheaf = leftPage().dom.find 'sheaf'
+        scale = getScaleFor sheaf
+        return if scale <= 1
+        p.translate = true
+        p.initialDelta =
+          x: getTranslationFor sheaf, "X"
+          y: getTranslationFor sheaf, "Y"
+        p.initialPosition = e.position
 
       move: (panel, e, direction) ->
-        return if direction == ""
-        turning k[direction], x
+        if direction != ""
+          turning k[direction], e.position.offsetX
+          return
+        return unless p.translate
+        console.log "translate"
+        m panel, e
 
       end: (panel, e, direction) ->
+        if p.translate
+          p.translate = false
+          return
+        p.translate = false
         if direction == ""
+          # just a debbuging code waiting touble tap ;)
           #e.scale = 2
           #z panel, e, direction
           p.reader.dispatchEvent "teabook:tap:middle"
         else
-          q "release", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction
+          q "release", panel, e.position.offsetX, e.position.offsetY, direction
 
       cancel: (panel, e, direction) ->
         return if direction == ""
-        q "release", panel, e.touches[0].offsetX, e.touches[0].offsetY, direction
+        q "release", panel, e.position.offsetX, e.position.offsetY, direction
 
       gestureend: (panel, e, direction) ->
         z panel, e, direction
