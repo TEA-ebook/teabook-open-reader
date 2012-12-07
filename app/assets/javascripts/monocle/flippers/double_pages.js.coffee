@@ -196,7 +196,7 @@ App.Flippers.DoublePages = (reader) ->
           turning k[direction], e.position.offsetX
           return
         return unless p.translate
-        console.log "translate"
+        return if e.touches.length > 1
         m panel, e
 
       end: (panel, e, direction) ->
