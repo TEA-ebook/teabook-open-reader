@@ -146,8 +146,8 @@ App.Flippers.DoublePages = (reader) ->
       sheaf = page.dom.find 'sheaf'
       currentScale = getScaleFor sheaf
       newScale = currentScale * e.scale
-      # border scale inside [0.2 - 5]
-      newScale = Math.max 0.2, newScale
+      # border scale inside [1 - 5]
+      newScale = Math.max 1, newScale
       newScale = Math.min newScale, 5
       delta = Math.abs newScale - 1
       applyScaleAndTranslate page, sheaf, newScale, delta, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
