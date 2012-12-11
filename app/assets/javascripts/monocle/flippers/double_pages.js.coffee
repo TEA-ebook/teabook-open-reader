@@ -234,7 +234,9 @@ App.Flippers.DoublePages = (reader) ->
             if scales[i - 1] <= currentScale < scales[i]
               scale = scales[i]
               break
-        applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
+        translateX = getTranslationFor sheaf, 'X'
+        translateY = getTranslationFor sheaf, 'Y'
+        applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), translateX, translateY
     )
 
 
