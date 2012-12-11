@@ -208,9 +208,6 @@ App.Flippers.DoublePages = (reader) ->
           return
         p.translate = false
         if direction == ""
-          # just a debbuging code waiting touble tap ;)
-          #e.scale = 2
-          #z panel, e, direction
           p.reader.dispatchEvent "teabook:tap:middle"
         else
           q "release", panel, e.position.offsetX, e.position.offsetY, direction
