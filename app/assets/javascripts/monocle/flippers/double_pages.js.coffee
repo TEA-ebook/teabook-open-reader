@@ -146,7 +146,7 @@ App.Flippers.DoublePages = (reader) ->
 
     z = (panel, e, direction) ->
       page = leftPage()
-      sheaf = page.dom.find 'sheaf'
+      sheaf = getSheaf(page)
       currentScale = getScaleFor sheaf
       newScale = currentScale * e.scale
       # border scale inside [1 - 5]
@@ -172,20 +172,24 @@ App.Flippers.DoublePages = (reader) ->
 
     m = (panel, e) ->
       page = leftPage()
-      sheaf = page.dom.find 'sheaf'
+      sheaf = getSheaf(page)
       scale = getScaleFor sheaf
       currentPosition = e.position
       dx = currentPosition.x - p.initialPosition.x + p.initialDelta.x
       dy = currentPosition.y - p.initialPosition.y + p.initialDelta.y
       applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), dx, dy
 
+    getSheaf = (page) ->
+      page.getElementsByClassName('monelem_sheaf')[0]
+
     p.panels = new panelClass(API,
       start: (panel, e, direction) ->
+        page = leftPage()
+        sheaf = getSheaf(page)
         if direction != ""
-          applyScaleAndTranslate leftPage(), leftPage().dom.find('sheaf'), 1, 0, 0, 0
+          applyScaleAndTranslate page, sheaf, 1, 0, 0, 0
           q "lift", panel, e.position.offsetX, e.position.offsetY, direction
           return
-        sheaf = leftPage().dom.find 'sheaf'
         scale = getScaleFor sheaf
         return if scale <= 1
         p.translate = true
@@ -226,7 +230,7 @@ App.Flippers.DoublePages = (reader) ->
       doubletap: (panel, e, direction) ->
         return unless direction == ""
         page = leftPage()
-        sheaf = page.dom.find 'sheaf'
+        sheaf = getSheaf(page)
         currentScale = getScaleFor sheaf
         scales = [1, 2, 5]
         scale = 1
