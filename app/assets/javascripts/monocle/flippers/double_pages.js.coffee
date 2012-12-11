@@ -115,12 +115,15 @@ App.Flippers.DoublePages = (reader) ->
       expr = /scale(3d)?\(([0-9.]+)\)/
       if el.style.transform
         matches = el.style.transform.match expr
+        return 1 unless matches
         return parseFloat matches[2]
       if el.style.MozTransform
         matches = el.style.MozTransform.match expr
+        return 1 unless matches
         return parseFloat matches[2]
       if el.style.WebkitTransform
         matches = el.style.WebkitTransform.match expr
+        return 1 unless matches
         return parseFloat matches[2]
       return 1
 
