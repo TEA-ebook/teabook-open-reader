@@ -35,6 +35,7 @@ App.Controls.DoubleArrowPanel = () ->
       hold: false
     hammer.bind 'tap', proxyEvent tap
     hammer.bind 'doubletap', proxyEvent doubletap
+    hammer.bind 'transform', proxyEvent transform
     hammer.bind 'transformend', proxyEvent transformend
     hammer.bind 'dragstart', proxyEvent start
     hammer.bind 'drag', proxyEvent move
@@ -174,7 +175,9 @@ App.Controls.DoubleArrowPanel = () ->
 
   gestureStart = (evt) ->
 
-  gestureMove = (evt) ->
+  transform = (evt) ->
+    p.direction = ""
+    invoke "gesture", evt
 
   transformend = (evt) ->
     p.direction = ""
