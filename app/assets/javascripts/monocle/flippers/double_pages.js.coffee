@@ -96,6 +96,21 @@ App.Flippers.DoublePages = (reader) ->
   interactiveMode = (bState) ->
     p.reader.dispatchEvent "monocle:interactive:" + (if bState then "on" else "off")
 
+  applyScaleAndTranslate = (page, sheaf, scale, delta, x, y) ->
+    if delta > 0.1
+      # really scale but translate only if > 1
+      transform = "scale(#{scale})"
+      if scale > 1
+        transform = "#{transform} translateX(#{x}px) translateY(#{y}px)"
+    else
+      # return to original scale
+      transform = ""
+
+    page.style.overflow = 'hidden'
+    sheaf.style.WebkitTransform = transform
+    sheaf.style.MozTransform = transform
+    sheaf.style.transform = transform
+
   # be ready for the interactive mode of the i-mode panels
   listenForInteraction = (panelClass) ->
     interactiveMode true
@@ -154,21 +169,6 @@ App.Flippers.DoublePages = (reader) ->
       newScale = Math.min newScale, 5
       delta = Math.abs newScale - 1
       applyScaleAndTranslate page, sheaf, newScale, delta, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
-
-    applyScaleAndTranslate = (page, sheaf, scale, delta, x, y) ->
-      if delta > 0.1
-        # really scale but translate only if > 1
-        transform = "scale(#{scale})"
-        if scale > 1
-          transform = "#{transform} translateX(#{x}px) translateY(#{y}px)"
-      else
-        # return to original scale
-        transform = ""
-      
-      page.style.overflow = 'hidden'
-      sheaf.style.WebkitTransform = transform
-      sheaf.style.MozTransform = transform
-      sheaf.style.transform = transform
 
     m = (panel, e) ->
       page = leftPage()
