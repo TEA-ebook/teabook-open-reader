@@ -146,19 +146,6 @@ App.Controls.DoubleArrowPanel = () ->
     p.direction = ""
     invoke "doubletap", evt
 
-  swipe = (evt) ->
-    alert "swipe #{evt.direction}"
-    if evt.direction == "right"
-      p.direction = "FORWARDS"
-    else if evt.direction == "left"
-      p.direction = "BACKWARDS"
-    else
-      return
-    invoke "start", evt
-    invoke "end", evt
-
-
-
   invoke = (evtType, evt) ->
     p.evtCallbacks[evtType] API, evt, p.direction  if p.evtCallbacks[evtType]
     evt.preventDefault()
@@ -173,8 +160,6 @@ App.Controls.DoubleArrowPanel = () ->
     p.div.dom.removeClass k.CLS.expanded
     p.expanded = false
 
-  gestureStart = (evt) ->
-
   transform = (evt) ->
     p.direction = ""
     invoke "gesture", evt
@@ -182,8 +167,6 @@ App.Controls.DoubleArrowPanel = () ->
   transformend = (evt) ->
     p.direction = ""
     invoke "gestureend", evt
-
-  gestureCancel = (evt) ->
 
   API = constructor: App.Controls.DoubleArrowPanel
   k = API.constants = API.constructor
