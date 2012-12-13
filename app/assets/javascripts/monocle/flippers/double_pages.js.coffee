@@ -114,6 +114,16 @@ App.Flippers.DoublePages = (reader) ->
   getSheaf = (page) ->
       page.getElementsByClassName('monelem_sheaf')[0]
 
+  checkOnSinglePageAndReset = () ->
+    # zoom is allowed when there is a single page, for whatever reason
+    pages = visiblePages()
+    return true if pages.length == 1
+    # if more than one page, reset zoom and translation
+    page = leftPage()
+    sheaf = getSheaf(page)
+    applyScaleAndTranslate page, sheaf, 1, 0, 0, 0
+    false
+
   # be ready for the interactive mode of the i-mode panels
   listenForInteraction = (panelClass) ->
     interactiveMode true
@@ -190,6 +200,7 @@ App.Flippers.DoublePages = (reader) ->
           applyScaleAndTranslate page, sheaf, 1, 0, 0, 0
           q "lift", panel, e.position.offsetX, e.position.offsetY, direction
           return
+        return unless checkOnSinglePageAndReset()
         scale = getScaleFor sheaf
         return if scale <= 1
         p.translate = true
@@ -202,6 +213,7 @@ App.Flippers.DoublePages = (reader) ->
         if direction != ""
           turning k[direction], e.position.offsetX
           return
+        return unless checkOnSinglePageAndReset()
         return unless p.translate
         return if e.touches.length > 1
         m panel, e
@@ -221,13 +233,16 @@ App.Flippers.DoublePages = (reader) ->
         q "release", panel, e.position.offsetX, e.position.offsetY, direction
 
       transform: (panel, e, direction) ->
+        return unless checkOnSinglePageAndReset()
         return if e.touches.length < 2
         z panel, e, direction
 
       transformend: (panel, e, direction) ->
+        return unless checkOnSinglePageAndReset()
         z panel, e, direction
 
       doubletap: (panel, e, direction) ->
+        return unless checkOnSinglePageAndReset()
         return unless direction == ""
         page = leftPage()
         sheaf = getSheaf(page)
@@ -375,6 +390,7 @@ App.Flippers.DoublePages = (reader) ->
     # This function will be called when the two current pages are ready
     # to prepare the next two pages and then execute the callback
     fn = (locus) ->
+      checkOnSinglePageAndReset()
       prepareNextPages locus, ->
         callback()  if typeof callback is "function"
         announceTurn()
