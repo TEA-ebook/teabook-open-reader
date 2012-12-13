@@ -39,7 +39,7 @@ App.Flippers.DoublePages = (reader) ->
   initialize = ->
     p.reader = reader
     p.reader.listen "monocle:componentchanging", showWaitControl
-    p.availableScales = [1, 2, 5]
+    p.availableScales = [1, 1.5, 2, 2.5, 3]
     Monocle.defer ->
       showWaitControl()
       reader.dom.find('page', p.leftIndex).className = 'monelem_page left'
