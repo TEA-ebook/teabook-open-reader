@@ -111,6 +111,9 @@ App.Flippers.DoublePages = (reader) ->
     sheaf.style.MozTransform = transform
     sheaf.style.transform = transform
 
+  getSheaf = (page) ->
+      page.getElementsByClassName('monelem_sheaf')[0]
+
   # be ready for the interactive mode of the i-mode panels
   listenForInteraction = (panelClass) ->
     interactiveMode true
@@ -178,9 +181,6 @@ App.Flippers.DoublePages = (reader) ->
       dx = currentPosition.x - p.initialPosition.x + p.initialDelta.x
       dy = currentPosition.y - p.initialPosition.y + p.initialDelta.y
       applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), dx, dy
-
-    getSheaf = (page) ->
-      page.getElementsByClassName('monelem_sheaf')[0]
 
     p.panels = new panelClass(API,
       start: (panel, e, direction) ->
