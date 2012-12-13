@@ -162,11 +162,11 @@ App.Controls.DoubleArrowPanel = () ->
 
   transform = (evt) ->
     p.direction = ""
-    invoke "gesture", evt
+    invoke "transform", evt
 
   transformend = (evt) ->
     p.direction = ""
-    invoke "gestureend", evt
+    invoke "transformend", evt
 
   API = constructor: App.Controls.DoubleArrowPanel
   k = API.constants = API.constructor

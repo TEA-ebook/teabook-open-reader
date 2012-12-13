@@ -220,11 +220,11 @@ App.Flippers.DoublePages = (reader) ->
         return if direction == ""
         q "release", panel, e.position.offsetX, e.position.offsetY, direction
 
-      gesture: (panel, e, direction) ->
+      transform: (panel, e, direction) ->
         return if e.touches.length < 2
         z panel, e, direction
 
-      gestureend: (panel, e, direction) ->
+      transformend: (panel, e, direction) ->
         z panel, e, direction
 
       doubletap: (panel, e, direction) ->
