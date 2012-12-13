@@ -39,6 +39,7 @@ App.Flippers.DoublePages = (reader) ->
   initialize = ->
     p.reader = reader
     p.reader.listen "monocle:componentchanging", showWaitControl
+    p.availableScales = [1, 2, 5]
     Monocle.defer ->
       showWaitControl()
       reader.dom.find('page', p.leftIndex).className = 'monelem_page left'
@@ -177,9 +178,8 @@ App.Flippers.DoublePages = (reader) ->
       sheaf = getSheaf(page)
       currentScale = getScaleFor sheaf
       newScale = currentScale * e.scale
-      # border scale inside [1 - 5]
-      newScale = Math.max 1, newScale
-      newScale = Math.min newScale, 5
+      newScale = Math.max p.availableScales[0], newScale
+      newScale = Math.min newScale, p.availableScales[-1..][0]
       delta = Math.abs newScale - 1
       applyScaleAndTranslate page, sheaf, newScale, delta, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
 
@@ -247,15 +247,14 @@ App.Flippers.DoublePages = (reader) ->
         page = leftPage()
         sheaf = getSheaf(page)
         currentScale = getScaleFor sheaf
-        scales = [1, 2, 5]
         scale = 1
-        l = scales.length
-        if currentScale > scales[l - 1] || currentScale < scales[0]
-          scale = scales[0]
+        l = p.availableScales.length
+        if currentScale > p.availableScales[l - 1] || currentScale < p.availableScales[0]
+          scale = p.availableScales[0]
         else
           for i in [1...l]
-            if scales[i - 1] <= currentScale < scales[i]
-              scale = scales[i]
+            if p.availableScales[i - 1] <= currentScale < p.availableScales[i]
+              scale = p.availableScales[i]
               break
         translateX = getTranslationFor sheaf, 'X'
         translateY = getTranslationFor sheaf, 'Y'
