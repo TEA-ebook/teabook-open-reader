@@ -25,42 +25,42 @@ class TeaApi < Sinatra::Application
   post '/app/authentication' do
     config = getConf
     if config[:yesapi]
-      return File.read "public/mock_api/authentication.json"
+      return File.read "config/mock_api/authentication.json"
     else
       users = config[:users]
       datas = JSON.parse params.keys.first
       email = datas["user"]["email"]
       users.each do |u|
-        return File.read "public/mock_api/#{u[:id]}/authentication.json" if u[:email] == email
+        return File.read "config/mock_api/#{u[:id]}/authentication.json" if u[:email] == email
       end
       403
     end
   end
 
   error 403 do
-    return File.read "public/mock_api/forbidden.json"
+    return File.read "config/mock_api/forbidden.json"
   end
 
   get '/users/:id/publications' do
     config = getConf
     if config[:yesapi]
-      File.read "public/mock_api/publications.json"
+      File.read "config/mock_api/publications.json"
     else
-      File.read "public/mock_api/#{params[:id]}/publications.json"
+      File.read "config/mock_api/#{params[:id]}/publications.json"
     end
   end
 
   get '/publications/:id/download' do
     config = getConf
     if config[:yesapi]
-      File.read "public/mock_api/epubs/example.epub"
+      File.read "config/mock_api/epubs/example.epub"
     else
-      File.read "public/mock_api/epubs/#{params[:id]}.epub"
+      File.read "config/mock_api/epubs/#{params[:id]}.epub"
     end
   end
 
   private
   def getConf
-    YAML.load_file("public/mock_api/config.yml")
+    YAML.load_file("config/mock_api/config.yml")
   end
 end
