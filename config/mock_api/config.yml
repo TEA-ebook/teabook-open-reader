@@ -24,6 +24,9 @@
   -
     :id: 24
     :email: johndoe@example.com
+    :password: ilovejane
   -
     :id: 2
     :email: test2@example.com
+
+

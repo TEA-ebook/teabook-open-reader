@@ -30,8 +30,11 @@ class TeaApi < Sinatra::Application
       users = config[:users]
       datas = JSON.parse params.keys.first
       email = datas["user"]["email"]
+      password = datas["user"]["password"]
       users.each do |u|
-        return File.read "config/mock_api/#{u[:id]}/authentication.json" if u[:email] == email
+        if u[:email] == email
+          return File.read "config/mock_api/#{u[:id]}/authentication.json" if !u[:password] || u[:password] == password
+        end
       end
       403
     end
