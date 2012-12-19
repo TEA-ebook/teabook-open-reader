@@ -97,15 +97,10 @@ App.Flippers.DoublePages = (reader) ->
   interactiveMode = (bState) ->
     p.reader.dispatchEvent "monocle:interactive:" + (if bState then "on" else "off")
 
-  applyScaleAndTranslate = (page, sheaf, scale, delta, x, y) ->
-    if delta > 0.1
-      # really scale but translate only if > 1
-      transform = "scale(#{scale})"
-      if scale > 1
-        transform = "#{transform} translateX(#{x}px) translateY(#{y}px)"
-    else
-      # return to original scale
-      transform = ""
+  applyScaleAndTranslate = (page, sheaf, scale, x, y) ->
+    transform = "scale(#{scale})"
+    if scale > 1
+      transform = "#{transform} translateX(#{x}px) translateY(#{y}px)"
 
     page.style.overflow = 'hidden'
     sheaf.style.WebkitTransform = transform
@@ -122,7 +117,7 @@ App.Flippers.DoublePages = (reader) ->
     # if more than one page, reset zoom and translation
     page = leftPage()
     sheaf = getSheaf(page)
-    applyScaleAndTranslate page, sheaf, 1, 0, 0, 0
+    applyScaleAndTranslate page, sheaf, 1, 0, 0
     false
 
   # be ready for the interactive mode of the i-mode panels
@@ -181,8 +176,7 @@ App.Flippers.DoublePages = (reader) ->
       newScale = currentScale * scaleFactor
       newScale = Math.max p.availableScales[0], newScale
       newScale = Math.min newScale, p.availableScales[-1..][0]
-      delta = Math.abs newScale - 1
-      applyScaleAndTranslate page, sheaf, newScale, delta, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
+      applyScaleAndTranslate page, sheaf, newScale, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
 
     m = (panel, e) ->
       page = leftPage()
@@ -191,14 +185,14 @@ App.Flippers.DoublePages = (reader) ->
       currentPosition = e.position
       dx = currentPosition.x - p.initialPosition.x + p.initialDelta.x
       dy = currentPosition.y - p.initialPosition.y + p.initialDelta.y
-      applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), dx, dy
+      applyScaleAndTranslate page, sheaf, scale, dx, dy
 
     p.panels = new panelClass(API,
       start: (panel, e, direction) ->
         page = leftPage()
         sheaf = getSheaf(page)
         if direction != ""
-          applyScaleAndTranslate page, sheaf, 1, 0, 0, 0
+          applyScaleAndTranslate page, sheaf, 1, 0, 0
           q "lift", panel, e.position.offsetX, e.position.offsetY, direction
           return
         return unless checkOnSinglePageAndReset()
@@ -259,7 +253,7 @@ App.Flippers.DoublePages = (reader) ->
               break
         translateX = getTranslationFor sheaf, 'X'
         translateY = getTranslationFor sheaf, 'Y'
-        applyScaleAndTranslate page, sheaf, scale, Math.abs(scale - 1), translateX, translateY
+        applyScaleAndTranslate page, sheaf, scale, translateX, translateY
     )
 
 
