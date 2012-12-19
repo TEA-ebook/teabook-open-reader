@@ -37,4 +37,4 @@
     host: 'http://localhost:4567'
 :test:
   api:
-    host: 'http://api.test.host'
+    host: 'http://localhost:4567'

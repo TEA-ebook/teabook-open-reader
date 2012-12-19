@@ -37,7 +37,7 @@ gem 'gaston'
 gem 'responders'
 
 gem 'thin'
-gem 'sinatra', require: false
+gem 'sinatra'
 gem 'resque', require: 'resque/server'
 gem 'resque-pool',
   github: "spk/resque-pool",

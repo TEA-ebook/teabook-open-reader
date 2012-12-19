@@ -22,18 +22,19 @@
 require "json"
 
 class TeaApi < Sinatra::Application
+
   post '/app/authentication' do
-    config = getConf
+    config = TeaApiConfig.getConf
     if config[:yesapi]
-      return File.read "config/mock_api/authentication.json"
-    else
+      return File.read config[:default][:authentication]
+    elsif !params.keys.first.nil?
       users = config[:users]
       datas = JSON.parse params.keys.first
       email = datas["user"]["email"]
       password = datas["user"]["password"]
       users.each do |u|
         if u[:email] == email
-          return File.read "config/mock_api/#{u[:id]}/authentication.json" if !u[:password] || u[:password] == password
+          return TeaApiConfig.authentication(u[:id]) if !u[:password] || u[:password] == password
         end
       end
       403
@@ -41,29 +42,30 @@ class TeaApi < Sinatra::Application
   end
 
   error 403 do
-    return File.read "config/mock_api/forbidden.json"
+    config = TeaApiConfig.getConf
+    return File.read config[:default][:forbidden]
   end
 
   get '/users/:id/publications' do
-    config = getConf
+    config = TeaApiConfig.getConf
     if config[:yesapi]
-      File.read "config/mock_api/publications.json"
+      return File.read config[:default][:publications]
     else
-      File.read "config/mock_api/#{params[:id]}/publications.json"
+      publications = TeaApiConfig.publications(params[:id])
+      return publications unless publications.nil?
+      403
     end
   end
 
   get '/publications/:id/download' do
-    config = getConf
+    config = TeaApiConfig.getConf
     if config[:yesapi]
-      File.read "config/mock_api/epubs/example.epub"
+      return File.read config[:default][:download]
     else
-      File.read "config/mock_api/epubs/#{params[:id]}.epub"
+      epub = TeaApiConfig.download(params[:id])
+      return epub unless epub.nil?
+      403
     end
   end
 
-  private
-  def getConf
-    YAML.load_file("config/mock_api/config.yml")
-  end
 end
