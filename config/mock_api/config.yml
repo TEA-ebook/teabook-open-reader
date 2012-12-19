@@ -19,11 +19,21 @@
 # You should have received a copy of this exception. If not, see 
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
 
-:yesapi: true
+:yesapi: false
+
+:default:
+  :authentication: "config/mock_api/authentication.json"
+  :forbidden:      "config/mock_api/forbidden.json"
+  :publications:   "config/mock_api/publications.json"
+  :download:       "config/mock_api/epubs/example.epub"
+
 :users:
   -
     :id: 24
     :email: johndoe@example.com
+    :password: ilovejane
   -
     :id: 2
     :email: test2@example.com
+
+

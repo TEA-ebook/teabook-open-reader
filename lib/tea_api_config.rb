@@ -18,23 +18,30 @@
 # to the GNU General Public Licence. 
 # You should have received a copy of this exception. If not, see 
 # <https://github.com/TEA-ebook/teabook-open-reader/blob/master/GPL-3-EXCEPTION>.
+require 'yaml'
 
 
+class TeaApiConfig
+  
+  path = "config/mock_api/" 
 
-:gaston:
-  api:
-    host: 'http://example.com/API'
-    paths:
-      reading_position: "/users/:user_id/publications/:book_id/reading_position"
-      publications: "/users/:user_id/publications"
-      download: "/publications/:book_id/download"
-      authentication: "/app/authentication"
-  bookstore: "demo"
-# Fake server
-# See script/tea_api.rb
-:development:
-  api:
-    host: 'http://localhost:4567'
-:test:
-  api:
-    host: 'http://localhost:4567'
+  def self.getConf
+    return YAML.load_file("#{@path}config.yml")
+  end
+  
+  def self.authentication(id)
+    file_path = "#{@path}#{id}/authentication.json"
+    File.read file_path if File.exists?(file_path)
+  end
+
+  def self.publications(id)
+    file_path = "#{@path}#{id}/publications.json"
+    File.read file_path if File.exists?(file_path)
+  end
+
+  def self.download(id)
+    file_path = "#{@path}epubs/#{id}.epub"
+    File.read file_path if File.exists?(file_path)
+  end
+
+end
