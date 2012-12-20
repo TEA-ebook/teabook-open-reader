@@ -23,7 +23,7 @@ require 'yaml'
 
 class TeaApiConfig
   
-  path = "config/mock_api/" 
+  @path = "config/mock_api/"
 
   def self.getConf
     return YAML.load_file("#{@path}config.yml")
