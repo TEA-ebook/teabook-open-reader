@@ -103,12 +103,19 @@ App.Flippers.DoublePages = (reader) ->
       transform = "#{transform} translateX(#{x}px) translateY(#{y}px)"
 
     page.style.overflow = 'hidden'
-    sheaf.style.WebkitTransform = transform
-    sheaf.style.MozTransform = transform
-    sheaf.style.transform = transform
+    el = getFrameBody sheaf
+    el.style.WebkitTransform = transform
+    el.style.MozTransform = transform
+    el.style.transform = transform
+
+    el.style.width = "#{page.offsetWidth}px"
+    el.style.height = "#{page.offsetHeight}px"
 
   getSheaf = (page) ->
       page.getElementsByClassName('monelem_sheaf')[0]
+
+  getFrameBody = (sheaf) ->
+    sheaf.getElementsByTagName('iframe')[0].contentDocument.body
 
   checkOnSinglePageAndReset = () ->
     # zoom is allowed when there is a single page, for whatever reason
@@ -171,17 +178,18 @@ App.Flippers.DoublePages = (reader) ->
     z = (panel, e, direction) ->
       page = leftPage()
       sheaf = getSheaf(page)
-      currentScale = getScaleFor sheaf
+      currentScale = getScaleFor getFrameBody sheaf
       scaleFactor = 1 + Math.log(e.scale) / (8 * Math.log(10))
       newScale = currentScale * scaleFactor
       newScale = Math.max p.availableScales[0], newScale
       newScale = Math.min newScale, p.availableScales[-1..][0]
-      applyScaleAndTranslate page, sheaf, newScale, getTranslationFor(sheaf, 'X'), getTranslationFor(sheaf, 'Y')
+      body = getFrameBody sheaf
+      applyScaleAndTranslate page, sheaf, newScale, getTranslationFor(body, 'X'), getTranslationFor(body, 'Y')
 
     m = (panel, e) ->
       page = leftPage()
       sheaf = getSheaf(page)
-      scale = getScaleFor sheaf
+      scale = getScaleFor getFrameBody sheaf
       currentPosition = e.position
       dx = currentPosition.x - p.initialPosition.x + p.initialDelta.x
       dy = currentPosition.y - p.initialPosition.y + p.initialDelta.y
@@ -196,12 +204,13 @@ App.Flippers.DoublePages = (reader) ->
           q "lift", panel, e.position.offsetX, e.position.offsetY, direction
           return
         return unless checkOnSinglePageAndReset()
-        scale = getScaleFor sheaf
+        scale = getScaleFor getFrameBody sheaf
         return if scale <= 1
         p.translate = true
+        body = getFrameBody sheaf
         p.initialDelta =
-          x: getTranslationFor sheaf, "X"
-          y: getTranslationFor sheaf, "Y"
+          x: getTranslationFor body, "X"
+          y: getTranslationFor body, "Y"
         p.initialPosition = e.position
 
       move: (panel, e, direction) ->
@@ -241,7 +250,7 @@ App.Flippers.DoublePages = (reader) ->
         return unless direction == ""
         page = leftPage()
         sheaf = getSheaf(page)
-        currentScale = getScaleFor sheaf
+        currentScale = getScaleFor getFrameBody sheaf
         scale = 1
         l = p.availableScales.length
         if currentScale > p.availableScales[l - 1] || currentScale < p.availableScales[0]
@@ -251,8 +260,9 @@ App.Flippers.DoublePages = (reader) ->
             if p.availableScales[i - 1] <= currentScale < p.availableScales[i]
               scale = p.availableScales[i]
               break
-        translateX = getTranslationFor sheaf, 'X'
-        translateY = getTranslationFor sheaf, 'Y'
+        body = getFrameBody sheaf
+        translateX = getTranslationFor body, 'X'
+        translateY = getTranslationFor body, 'Y'
         applyScaleAndTranslate page, sheaf, scale, translateX, translateY
     )
 
