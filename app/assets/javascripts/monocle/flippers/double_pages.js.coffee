@@ -136,7 +136,7 @@ App.Flippers.DoublePages = (reader) ->
         release dir, x
 
     getScaleFor = (el) ->
-      expr = /scale(3d)?\(([0-9.]+)\)/
+      expr = /scale(3d)?\((-?[0-9.]+)\)/
       if el.style.transform
         matches = el.style.transform.match expr
         return 1 unless matches
@@ -152,7 +152,7 @@ App.Flippers.DoublePages = (reader) ->
       return 1
 
     getTranslationFor = (el, type) ->
-      expr = new RegExp "translate#{type}\\(([0-9.]+)px\\)"
+      expr = new RegExp "translate#{type}\\((-?[0-9.]+)px\\)"
       if el.style.transform
         matches = el.style.transform.match expr
         return 0 unless matches
