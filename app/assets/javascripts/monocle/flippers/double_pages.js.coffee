@@ -191,8 +191,8 @@ App.Flippers.DoublePages = (reader) ->
       sheaf = getSheaf(page)
       scale = getScaleFor getFrameBody sheaf
       currentPosition = e.position
-      dx = currentPosition.x - p.initialPosition.x + p.initialDelta.x
-      dy = currentPosition.y - p.initialPosition.y + p.initialDelta.y
+      dx = (currentPosition.x - p.initialPosition.x) / scale + p.initialDelta.x
+      dy = (currentPosition.y - p.initialPosition.y) / scale + p.initialDelta.y
       applyScaleAndTranslate page, sheaf, scale, dx, dy
 
     p.panels = new panelClass(API,
