@@ -4,7 +4,7 @@ def jenkins?
   ENV['JENKINS'] == "true"
 end
 
-gem 'rails', '3.2.8'
+gem 'rails', '~> 3.2'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
