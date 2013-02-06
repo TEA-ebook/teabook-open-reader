@@ -35,6 +35,7 @@ gem 'faraday_middleware'
 gem 'hashie'
 gem 'gaston'
 gem 'responders'
+gem 'zipruby'
 
 gem 'thin'
 gem 'sinatra'
