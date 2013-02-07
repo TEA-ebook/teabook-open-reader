@@ -24,3 +24,7 @@
 development:
   host: localhost
   database: tea_dev
+
+test:
+  host: localhost
+  database: tea_test
