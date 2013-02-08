@@ -357,3 +357,4 @@ DEPENDENCIES
   thin
   typhoeus
   uglifier (>= 1.0.3)
+  zipruby

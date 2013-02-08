@@ -260,10 +260,18 @@ class Ebook::Epub < Ebook::Base
   #
   # FIXME raise an exception if file is not present
   def unzip
-    mute = " 1> /dev/null" if Rails.env.test?
-    system "unzip -u #{file.current_path.shellescape} -d #{unzip_dir_path.shellescape} #{mute}"
-    system "find #{unzip_dir_path.shellescape} -type d -print | xargs chmod a+rx,u+w #{mute}"
-    system "find #{unzip_dir_path.shellescape} -type f -print | xargs chmod a+r,u+w #{mute}"
+    FileUtils.mkdir_p unzip_dir_path
+    Zip::Archive.open(file.current_path).each do |entry|
+      if !entry.directory?
+        file_path = File.dirname(entry.name)
+        if file_path != "."
+          FileUtils.mkdir_p "#{unzip_dir_path}/#{file_path}"
+        end
+        open("#{unzip_dir_path}/#{entry.name}", 'wb') do |f|
+          f << entry.read
+        end
+      end
+    end
   end
 
   # Is this epub is unzipped ?
