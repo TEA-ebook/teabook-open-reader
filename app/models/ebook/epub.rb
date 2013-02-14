@@ -586,7 +586,7 @@ class Ebook::Epub < Ebook::Base
 
     document.xpath("//body//a").each do |a|
       href = a['href']
-      next if href.blank?
+      next if href.blank? or href =~ /^tel:/
 
       anchor = URI.parse(href)
       next if anchor.absolute? || anchor.path.starts_with?("#{relative_dirname}/")
