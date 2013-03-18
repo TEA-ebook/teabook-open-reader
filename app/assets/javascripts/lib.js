@@ -24,7 +24,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.cookie
-//= require sticky-2.8
+//= require sticky-2.9
 //= require underscore
 //= require backbone
 //= require backbone-relational
