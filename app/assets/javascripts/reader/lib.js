@@ -29,7 +29,7 @@
 //= require backbone_stuff
 //= require backbone_rails_sync
 //= require backbone-forms
-//= require sticky-2.8
+//= require sticky-2.9
 //= require mustache
 //= require_tree ../../../templates
 //= require_tree ../misc
