@@ -33,7 +33,7 @@
 //= require backbone-forms
 //= require hammer
 //= require jquery.hammer
-//= require sticky-2.8
+//= require sticky-2.9
 //= require mustache
 //= require_tree ../../../templates
 //= require bootstrap-modal
